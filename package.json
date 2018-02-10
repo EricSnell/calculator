@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "watch:sass": "node-sass styles.scss css/style.css -w",
+    "watch:sass": "node-sass sass/styles.scss css/style.css -w",
     "start": "npm-run-all --parallel watch:sass",
-    "compile:sass": "node-sass styles.scss css/style.comp.css",
+    "compile:sass": "node-sass sass/styles.scss css/style.comp.css",
     "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' css/style.comp.css -o css/style.prefix.css",
     "compress:css": "node-sass css/style.prefix.css css/style.css --output-style compressed",
     "build:css": "npm-run-all compile:sass prefix:css compress:css"
@@ -30,5 +30,10 @@
     "node-sass": "^4.7.2",
     "npm-run-all": "^4.1.2",
     "postcss-cli": "^5.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
   }
 }
