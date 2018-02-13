@@ -29,7 +29,7 @@
     let input;
     const isNumber = e.target.classList.contains('btn--number') && e.target.id !== '.';
     const isDecimal = e.target.id === '.';
-    const isOp = e.target.classList.contains('btn--operator');
+    const isOperator = e.target.classList.contains('btn--operator');
 
     if (isNumber) {
       input = e.target.id;
@@ -55,9 +55,13 @@
       }
     }
 
-    else if (isOp) {
+    else if (isOperator) {
       // check if current state is already an operator
-      if (isNotOperator(state.current)) {
+      if (isNotOperator(state.current) && e.target.id === '=') {
+        const answer = eval(state.total);
+        state.total += `=${answer}`;
+        state.current = answer;
+      } else if (isNotOperator(state.current)) {
         state.current = e.target.id;
         state.total += e.target.id;
       } else {
