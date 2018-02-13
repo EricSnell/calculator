@@ -54,7 +54,9 @@ body {
     border-radius: 100%;
     width: 9rem;
     height: 9rem;
-    line-height: 9rem; }
+    line-height: 9rem;
+    cursor: pointer;
+    user-select: none; }
 
 .btn--number {
   background: var(--color-number); }
