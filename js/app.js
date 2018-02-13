@@ -7,11 +7,7 @@
           = total
           = decimal flag
 
-     - Event listener on each button (click)
-     - Check which ID was clicked
      - If operator - next button cannot be another operator
-     - If decimal - current cannot already contain decimal (check flag)
-     - If number - append number to current input var 
      - If operator, take current input and set as total plus operator
      - If AC - reset all values
      - If CE - clear input only (clear all if pressed again)
@@ -20,9 +16,9 @@
   */
 
   const state = {
-    current: null,
+    current: '',
     decimal: false,
-    total: null
+    total: ''
   }
 
   const [buttons] = Array.from(document.getElementsByClassName('buttons'));
@@ -31,32 +27,58 @@
 
   buttons.addEventListener('click', (e) => {
     let input;
-    const isNumber = e.target.classList.contains('btn--number');
-    const isDecimal = e.target.id === 'decimal';
-    const isOperator = e.target.classList.contains('btn--operator');
+    const isNumber = e.target.classList.contains('btn--number') && e.target.id !== '.';
+    const isDecimal = e.target.id === '.';
+    const isOp = e.target.classList.contains('btn--operator');
 
     if (isNumber) {
-      // convert input to number
-      // if current is already a number, append to current state
-      // set current state to number and append to total
-      // display both current and total
+      input = e.target.id;
+      // if current state is a number or if it's empty
+      if (typeof parseInt(state.current) === 'number' || state.current.length === 0) {
+        if (isNotOperator(state.current)) {
+          state.current += input;
+        } else {
+          state.current = e.target.id;
+        }
+      }
+      state.total += input;
     }
 
     else if (isDecimal) {
-      // if flag is false, set to true and continue, otherwise return false
-      // append to current and total states
-      // if current state has no length, append a 0 before the decimal
+      if (!state.decimal) {
+        input = state.current.length ? '.' : '0.';
+        state.decimal = true;
+        state.current += input;
+        state.total += input;
+      } else {
+        return false;
+      }
     }
 
-    else if (isOperator) {
+    else if (isOp) {
       // check if current state is already an operator
+      if (isNotOperator(state.current)) {
+        state.current = e.target.id;
+        state.total += e.target.id;
+      } else {
+        return false;
+      }
       // if so...return false
       // set operator by targets id and replace input display with operator
       // if operator is equals - pass the state total into eval() 
       // set answer to the display
     }
 
+    console.log('state:', state);
+    inputDisplay.innerText = state.current;
+    totalDisplay.innerText = state.total;
+
   });
+
+  function isNotOperator(input) {
+    const operators = ['+', '-', '*', '/', '='];
+    return !operators.includes(input);
+  }
 
 
 })();
