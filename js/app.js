@@ -19,5 +19,44 @@
      - First number of total cannot be zero
   */
 
+  const state = {
+    current: null,
+    decimal: false,
+    total: null
+  }
+
+  const [buttons] = Array.from(document.getElementsByClassName('buttons'));
+  const [inputDisplay] = document.getElementsByClassName('display__current');
+  const [totalDisplay] = document.getElementsByClassName('display__total');
+
+  buttons.addEventListener('click', (e) => {
+    let input;
+    const isNumber = e.target.classList.contains('btn--number');
+    const isDecimal = e.target.id === 'decimal';
+    const isOperator = e.target.classList.contains('btn--operator');
+
+    if (isNumber) {
+      // convert input to number
+      // if current is already a number, append to current state
+      // set current state to number and append to total
+      // display both current and total
+    }
+
+    else if (isDecimal) {
+      // if flag is false, set to true and continue, otherwise return false
+      // append to current and total states
+      // if current state has no length, append a 0 before the decimal
+    }
+
+    else if (isOperator) {
+      // check if current state is already an operator
+      // if so...return false
+      // set operator by targets id and replace input display with operator
+      // if operator is equals - pass the state total into eval() 
+      // set answer to the display
+    }
+
+  });
+
 
 })();
