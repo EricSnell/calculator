@@ -34,15 +34,17 @@
     }
 
     if (isNumber) {
+      state.operator = false;
       input = e.target.id;
       // if current state is a number or if it's empty
-      if (typeof parseFloat(state.current) === 'number' || state.current.length === 0) {
+      if ((typeof parseFloat(state.current) === 'number' && state.current.length > 0) || (state.current.length === 0 && parseInt(input) > 0)) {
         state.current += input;
         state.total += input;
       }
     }
 
     else if (isDecimal) {
+      state.operator = false;
       if (!state.decimal) {
         input = state.current.length ? '.' : '0.';
         state.decimal = true;
@@ -54,15 +56,18 @@
     }
 
     else if (isOperator) {
+      if (state.operator) {
+        return false;
+      }
       // check if current state is a number and that the equal sign was pressed
       if (typeof parseFloat(state.current) === 'number' && e.target.id === '=') {
-        console.log('equal sign pressed');
+        state.operator = true;
         const answer = eval(state.total);
         state.decimal = false;
         state.total += `=${answer}`;
         state.current = answer;
       } else if (isNotOperator(state.current)) {
-        console.log('current is not already operator');
+        state.operator = true;
         state.decimal = false;
         state.current = e.target.id;
         state.total += e.target.id;
@@ -77,6 +82,7 @@
 
     else if (isAC) {
       clearAll();
+      console.clear();
     }
 
     else if (isCE) {
@@ -87,17 +93,18 @@
       }
     }
 
+    updateDisplay();
     console.log('state:', state);
-    inputDisplay.innerText = state.current;
-    totalDisplay.innerText = state.total;
-
   });
 
 
 
 
 
-
+  function updateDisplay() {
+    inputDisplay.innerText = state.current;
+    totalDisplay.innerText = state.total;
+  }
 
   function isNotOperator(input) {
     const operators = ['+', '-', '*', '/', '='];
