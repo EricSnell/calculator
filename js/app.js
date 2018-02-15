@@ -1,5 +1,4 @@
 (() => {
-
   const [buttons] = Array.from(document.getElementsByClassName('buttons'));
   const [inputDisplay] = document.getElementsByClassName('display__current');
   const [totalDisplay] = document.getElementsByClassName('display__total');
@@ -11,17 +10,17 @@
     total: ''
   }
 
-  buttons.addEventListener('click', run);
+  buttons.addEventListener('click', runInput);
 
 
-  function run(e) {
+  function runInput(e) {
     let input;
     const isNumber = e.target.classList.contains('btn--number');
     const isOperator = e.target.classList.contains('btn--operator');
     const isDecimal = e.target.id === '.';
     const isCE = e.target.id === 'CE';
     const isAC = e.target.id === 'AC';
-    // if current state is an operator, then reset to stop appending
+    // if current state is an operator, then reset current to avoid appending
     if (!isNotOperator(state.current)) {
       updateState({ current: '' });
     }
@@ -29,11 +28,9 @@
     switch (true) {
       case isNumber:
         input = e.target.id;
-        updateState({ operator: false });
         handleNumber(input);
         break;
       case isDecimal:
-        updateState({ operator: false });
         handleDecimal();
         break;
       case isOperator:
@@ -50,11 +47,12 @@
       default:
         break;
     }
+    console.log(state);
     updateDisplay();
   }
 
   function handleNumber(num) {
-    // if current state is a number or if it's empty
+    if (state.operator) updateState({ operator: false });
     if (validNumber(num)) {
       const newCurrent = state.current + num;
       const newTotal = state.total + num;
@@ -64,34 +62,35 @@
   }
 
   function validNumber(num) {
-    return typeof parseFloat(state.current) === 'number' &&
-      state.current.length > 0 ||
-      (state.current.length === 0 && parseInt(num, 10) > 0);
+    const currentIsNumber = typeof parseFloat(state.current) === 'number' && state.current.length > 0;
+    const ifFirstNotZero = state.current.length === 0 && parseInt(num, 10) > 0;
+    return currentIsNumber || ifFirstNotZero;
   }
 
   function handleDecimal() {
+    updateState({ operator: false });
     if (!state.decimal) {
       const deci = state.current.length ? '.' : '0.';
       const newCurrent = state.current + deci;
       const newTotal = state.total + deci;
       updateState({ decimal: true, current: newCurrent, total: newTotal });
     } else {
-      return false;
+      return false; // if current already contains decimal, return false
     }
     return true;
   }
 
   function handleOperator(operator) {
+    // If current is already operator or there is nothing to perform operation on - return false
     if (state.operator || state.total === '') {
       return false;
-    }
-    if (typeof parseFloat(state.current) === 'number' && operator === '=') {
+      // If equal sign is clicked and there is a current value, then solve the equation
+    } else if (typeof parseFloat(state.current) === 'number' && operator === '=') {
       solveEquation();
-    } else if (isNotOperator(state.current)) {
-      state.operator = true;
-      state.decimal = false;
-      state.current = operator;
-      state.total += operator;
+      // If current is not already an operator - append operator to total and set current to operator
+    } else if (!state.operator) {
+      const newTotal = state.total + operator;
+      updateState({ operator: true, decimal: false, current: operator, total: newTotal });
     } else {
       return false;
     }
@@ -99,7 +98,7 @@
   }
 
   function solveEquation() {
-    const answer = eval(state.total);
+    const answer = eval(state.total).toString();
     const newTotal = `${state.total}=${answer}`;
     updateState({ operator: true, decimal: false, current: answer, total: newTotal });
   }
