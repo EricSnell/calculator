@@ -12,7 +12,6 @@
 
   buttons.addEventListener('click', runInput);
 
-
   function runInput(e) {
     let input;
     const isNumber = e.target.classList.contains('btn--number');
@@ -20,10 +19,6 @@
     const isDecimal = e.target.id === '.';
     const isCE = e.target.id === 'CE';
     const isAC = e.target.id === 'AC';
-    // if current state is an operator, then reset current to avoid appending
-    if (!isNotOperator(state.current)) {
-      updateState({ current: '' });
-    }
 
     switch (true) {
       case isNumber:
@@ -52,11 +47,14 @@
   }
 
   function handleNumber(num) {
-    if (state.operator) updateState({ operator: false });
+    if (state.operator) {
+      // Append operator to total and remove from current state -- turning off flag
+      const newTotal = state.total + state.current;
+      updateState({ operator: false, current: '', total: newTotal });
+    }
     if (validNumber(num)) {
-      const newCurrent = state.current + num;
-      const newTotal = state.total + num;
-      updateState({ current: newCurrent, total: newTotal });
+      const newCurrent = state.current + num
+      updateState({ current: newCurrent });
     }
     return true;
   }
@@ -72,8 +70,7 @@
     if (!state.decimal) {
       const deci = state.current.length ? '.' : '0.';
       const newCurrent = state.current + deci;
-      const newTotal = state.total + deci;
-      updateState({ decimal: true, current: newCurrent, total: newTotal });
+      updateState({ decimal: true, current: newCurrent });
     } else {
       return false; // if current already contains decimal, return false
     }
@@ -82,15 +79,15 @@
 
   function handleOperator(operator) {
     // If current is already operator or there is nothing to perform operation on - return false
-    if (state.operator || state.total === '') {
+    if (state.operator) {
       return false;
       // If equal sign is clicked and there is a current value, then solve the equation
     } else if (typeof parseFloat(state.current) === 'number' && operator === '=') {
+      state.total += state.current;
       solveEquation();
       // If current is not already an operator - append operator to total and set current to operator
     } else if (!state.operator) {
-      const newTotal = state.total + operator;
-      updateState({ operator: true, decimal: false, current: operator, total: newTotal });
+      updateState({ operator: true, decimal: false, current: operator, total: state.current });
     } else {
       return false;
     }
@@ -99,18 +96,13 @@
 
   function solveEquation() {
     const answer = eval(state.total).toString();
-    const newTotal = `${state.total}=${answer}`;
-    updateState({ operator: true, decimal: false, current: answer, total: newTotal });
+    const newTotal = `${state.total}=`;
+    updateState({ decimal: false, current: answer, total: newTotal });
   }
 
   function updateDisplay() {
     inputDisplay.innerText = state.current;
-    totalDisplay.innerText = state.total;
-  }
-
-  function isNotOperator(input) {
-    const operators = ['+', '-', '*', '/', '='];
-    return !operators.includes(input);
+    totalDisplay.innerText = state.total + state.current;
   }
 
   function updateState(propsToUpdate = {}) {

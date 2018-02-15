@@ -44,14 +44,21 @@ body {
   flex-direction: column;
 
   &__current {
-    border: 1px dashed red;
     height: 75%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-size: 9rem;
+    padding-right: 2rem;
   }
 
   &__total {
-    border: 1px dashed white;
     height: 25%;
     font-size: 2.5rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 2rem;
   }
 
   &__text {
