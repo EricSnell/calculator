@@ -11,63 +11,47 @@
     total: ''
   }
 
-  buttons.addEventListener('click', (e) => {
+  buttons.addEventListener('click', run);
+
+
+  function run(e) {
     let input;
     const isNumber = e.target.classList.contains('btn--number');
     const isOperator = e.target.classList.contains('btn--operator');
     const isDecimal = e.target.id === '.';
     const isCE = e.target.id === 'CE';
     const isAC = e.target.id === 'AC';
-
     // if current state is an operator, then reset to stop appending
     if (!isNotOperator(state.current)) {
       updateState({ current: '' });
     }
 
-    if (isNumber) {
-      input = e.target.id;
-      updateState({ operator: false });
-      handleNumber(input);
-    }
-
-    else if (isDecimal) {
-      updateState({ operator: false });
-      handleDecimal();
-    }
-
-    else if (isOperator) {
-      const operator = e.target.id;
-      if (state.operator || state.total === '') {
-        return false;
-      }
-      handleOperator(operator);
-    }
-
-    else if (isAC) {
-      clearAll();
-    }
-
-    else if (isCE) {
-      if (state.current.length) {
-        updateState({ current: '' });
-      } else {
+    switch (true) {
+      case isNumber:
+        input = e.target.id;
+        updateState({ operator: false });
+        handleNumber(input);
+        break;
+      case isDecimal:
+        updateState({ operator: false });
+        handleDecimal();
+        break;
+      case isOperator:
+        input = e.target.id;
+        handleOperator(input);
+        break;
+      case isAC:
         clearAll();
-      }
+        break;
+      case isCE:
+        if (state.current.length) updateState({ current: '' })
+        else clearAll()
+        break;
+      default:
+        break;
     }
-
     updateDisplay();
-  });
-
-
-
-
-
-
-
-
-
-
-
+  }
 
   function handleNumber(num) {
     // if current state is a number or if it's empty
@@ -97,22 +81,27 @@
     return true;
   }
 
-  function handleOperator(input) {
-    if (typeof parseFloat(state.current) === 'number' && input === '=') {
-      const answer = eval(state.total);
-      state.operator = true;
-      state.decimal = false;
-      state.total += `=${answer}`;
-      state.current = answer;
+  function handleOperator(operator) {
+    if (state.operator || state.total === '') {
+      return false;
+    }
+    if (typeof parseFloat(state.current) === 'number' && operator === '=') {
+      solveEquation();
     } else if (isNotOperator(state.current)) {
       state.operator = true;
       state.decimal = false;
-      state.current = input;
-      state.total += input;
+      state.current = operator;
+      state.total += operator;
     } else {
       return false;
     }
     return true;
+  }
+
+  function solveEquation() {
+    const answer = eval(state.total);
+    const newTotal = `${state.total}=${answer}`;
+    updateState({ operator: true, decimal: false, current: answer, total: newTotal });
   }
 
   function updateDisplay() {
@@ -130,13 +119,7 @@
   }
 
   function clearAll() {
-    const newState = {
-      current: '',
-      decimal: false,
-      operator: false,
-      total: ''
-    }
-    state = { ...newState };
+    updateState({ current: '', decimal: false, operator: false, total: '' });
   }
 
 })();
