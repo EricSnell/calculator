@@ -7,7 +7,8 @@
     current: '',
     decimal: false,
     operator: false,
-    total: ''
+    total: '',
+    answered: false
   }
 
   buttons.addEventListener('click', runInput);
@@ -42,7 +43,6 @@
       default:
         break;
     }
-    console.log(state);
     updateDisplay();
   }
 
@@ -53,6 +53,7 @@
       updateState({ operator: false, current: '', total: newTotal });
     }
     if (validNumber(num)) {
+      if (state.answered) clearAll();
       const newCurrent = state.current + num
       updateState({ current: newCurrent });
     }
@@ -66,11 +67,14 @@
   }
 
   function handleDecimal() {
-    updateState({ operator: false });
     if (!state.decimal) {
+      if (state.operator) {
+        const newTotal = state.total + state.current;
+        updateState({ current: '', total: newTotal });
+      }
       const deci = state.current.length ? '.' : '0.';
       const newCurrent = state.current + deci;
-      updateState({ decimal: true, current: newCurrent });
+      updateState({ decimal: true, operator: false, current: newCurrent });
     } else {
       return false; // if current already contains decimal, return false
     }
@@ -87,7 +91,7 @@
       solveEquation();
       // If current is not already an operator - append operator to total and set current to operator
     } else if (!state.operator) {
-      updateState({ operator: true, decimal: false, current: operator, total: state.current });
+      updateState({ operator: true, decimal: false, current: operator, total: state.current, answered: false });
     } else {
       return false;
     }
@@ -97,7 +101,7 @@
   function solveEquation() {
     const answer = eval(state.total).toString();
     const newTotal = `${state.total}=`;
-    updateState({ decimal: false, current: answer, total: newTotal });
+    updateState({ decimal: false, current: answer, total: newTotal, answered: true });
   }
 
   function updateDisplay() {
@@ -110,7 +114,7 @@
   }
 
   function clearAll() {
-    updateState({ current: '', decimal: false, operator: false, total: '' });
+    updateState({ current: '', decimal: false, operator: false, total: '', answered: false });
   }
 
 })();
