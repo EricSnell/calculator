@@ -29,11 +29,12 @@ body {
 
 .calculator {
   height: 75rem;
-  width: 43rem;
+  width: 42rem;
   background: var(--color-background);
   margin: 8rem auto;
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8); }
 
 .display {
   flex: 1;
@@ -42,15 +43,15 @@ body {
   display: flex;
   flex-direction: column; }
   .display__current {
-    height: 75%;
+    flex: 75%;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    font-size: 9rem;
+    font-size: 11rem;
     padding-right: 2rem; }
   .display__total {
-    height: 25%;
-    font-size: 2.5rem;
+    flex: 25%;
+    font-size: 3rem;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -64,7 +65,7 @@ body {
 
 .buttons {
   padding: 1.3rem;
-  font-size: 3.3rem; }
+  font-size: 3.5rem; }
   .buttons__btn {
     width: 25%;
     display: flex;
@@ -77,7 +78,7 @@ body {
     .buttons__btn:not(:last-child) {
       margin-right: 1.3rem; }
 
-.btn--number {
+.btn--number, .btn--grey {
   background: var(--color-number); }
 
 .btn--operator {
@@ -85,7 +86,8 @@ body {
 
 .btn--clear {
   background: var(--color-clear);
-  color: #000000; }
+  color: var(--color-background); }
 
-#decimal {
-  background: var(--color-number); }
+.width-50 {
+  flex: 50%;
+  border-radius: 10rem; }
