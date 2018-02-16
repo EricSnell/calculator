@@ -3,6 +3,7 @@
   --color-text: #ffffff;
   --color-number: #333333;
   --color-operator: #EE9943;
+  --color-clear: #A8A9AC;
 }
 
 * {
@@ -18,9 +19,10 @@ html {
 
 body {
   font-size: 4rem;
-  font-weight: 300;
+  font-weight: 200;
   color: var(--color-text);
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background: #333;
 }
 
 *,
@@ -31,18 +33,21 @@ body {
 }
 
 .calculator {
-  width: 40rem;
-  border: 1px solid;
+  height: 75rem;
+  width: 43rem;
   background: var(--color-background);
-
+  margin: 8rem auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .display {
-  height: 14rem;
+  flex: 1;
+  font-weight: 100;
   text-align: right;
   display: flex;
   flex-direction: column;
-
+  
   &__current {
     height: 75%;
     display: flex;
@@ -51,7 +56,7 @@ body {
     font-size: 9rem;
     padding-right: 2rem;
   }
-
+  
   &__total {
     height: 25%;
     font-size: 2.5rem;
@@ -60,27 +65,33 @@ body {
     align-items: center;
     padding-right: 2rem;
   }
+}
 
-  &__text {
-    border: 1px solid blue;
-  }
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  height: 9rem;
 }
 
 .buttons {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 1.5rem;
-
+  padding: 1.3rem;
+  font-size: 3.3rem;
+  
   &__btn {
-    text-align: center;
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 100%;
-    width: 9rem;
-    height: 9rem;
-    line-height: 9rem;
+    text-align: center;
     cursor: pointer;
     user-select: none;
+    
+    &:not(:last-child) {
+      margin-right: 1.3rem;
+    }
   }
-  
 }
 
 .btn {
@@ -91,5 +102,14 @@ body {
   &--operator {
     background: var(--color-operator);
   }
+  
+  &--clear {
+    background: var(--color-clear);
+    color: #000000;
+  }
+}
+
+#decimal {
+  background: var(--color-number);
 }
 
