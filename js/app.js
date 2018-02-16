@@ -1,5 +1,3 @@
-// fix bug with chaining operations
-
 (() => {
   const [buttons] = Array.from(document.getElementsByClassName('buttons'));
   const [inputDisplay] = document.getElementsByClassName('display__current');
@@ -39,13 +37,7 @@
         clearAll();
         break;
       case isCE:
-        if (state.answered) {
-          clearAll();
-        } else if (state.current.length) {
-          updateState({ current: '' });
-        } else {
-          clearAll();
-        }
+        clearInput();
         break;
       default:
         break;
@@ -81,23 +73,21 @@
       const deci = state.current.length ? '.' : '0.';
       const newCurrent = state.current + deci;
       updateState({ decimal: true, operator: false, current: newCurrent });
+      // if current already contains decimal, return false
     } else {
-      return false; // if current already contains decimal, return false
+      return false;
     }
     return true;
   }
 
   function handleOperator(operator) {
     // If current is already operator or there is nothing to perform operation on - return false
-    if (state.operator) {
+    if (state.operator || state.current.length === 0) {
       return false;
-      // If equal sign is clicked and there is a current value, then solve the equation
     } else if (state.answered) {
       updateState({ current: operator, operator: true, total: state.current, answered: false });
     } else if (typeof parseFloat(state.current) === 'number' && operator === '=') {
-      state.total += state.current;
       solveEquation();
-      // If current is not already an operator - append operator to total and set current to operator
     } else if (!state.operator) {
       const newTotal = state.total + state.current;
       updateState({ operator: true, decimal: false, current: operator, total: newTotal, answered: false });
@@ -107,10 +97,25 @@
     return true;
   }
 
+  function clearInput() {
+    if (state.answered) {
+      clearAll();
+    } else if (state.current.length) {
+      updateState({ current: '' });
+    } else {
+      clearAll();
+    }
+  }
+
+  function clearAll() {
+    updateState({ current: '', decimal: false, operator: false, total: '', answered: false });
+  }
+
   function solveEquation() {
-    const answer = eval(state.total).toString();
-    const newTotal = `${state.total}=`;
-    updateState({ decimal: false, current: answer, total: newTotal, answered: true });
+    const equation = state.total + state.current;
+    const answer = eval(equation).toString();
+    const fullEquation = `${equation}=`;
+    updateState({ decimal: false, current: answer, total: fullEquation, answered: true });
   }
 
   function updateDisplay() {
@@ -120,10 +125,6 @@
 
   function updateState(propsToUpdate = {}) {
     state = Object.assign({}, state, propsToUpdate);
-  }
-
-  function clearAll() {
-    updateState({ current: '', decimal: false, operator: false, total: '', answered: false });
   }
 
 })();
