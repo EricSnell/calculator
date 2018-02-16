@@ -1,3 +1,5 @@
+// fix bug with chaining operations
+
 (() => {
   const [buttons] = Array.from(document.getElementsByClassName('buttons'));
   const [inputDisplay] = document.getElementsByClassName('display__current');
@@ -37,8 +39,13 @@
         clearAll();
         break;
       case isCE:
-        if (state.current.length) updateState({ current: '' })
-        else clearAll()
+        if (state.answered) {
+          clearAll();
+        } else if (state.current.length) {
+          updateState({ current: '' });
+        } else {
+          clearAll();
+        }
         break;
       default:
         break;
@@ -53,7 +60,6 @@
       updateState({ operator: false, current: '', total: newTotal });
     }
     if (validNumber(num)) {
-      if (state.answered) clearAll();
       const newCurrent = state.current + num
       updateState({ current: newCurrent });
     }
@@ -86,12 +92,15 @@
     if (state.operator) {
       return false;
       // If equal sign is clicked and there is a current value, then solve the equation
+    } else if (state.answered) {
+      updateState({ current: operator, operator: true, total: state.current, answered: false });
     } else if (typeof parseFloat(state.current) === 'number' && operator === '=') {
       state.total += state.current;
       solveEquation();
       // If current is not already an operator - append operator to total and set current to operator
     } else if (!state.operator) {
-      updateState({ operator: true, decimal: false, current: operator, total: state.current, answered: false });
+      const newTotal = state.total + state.current;
+      updateState({ operator: true, decimal: false, current: operator, total: newTotal, answered: false });
     } else {
       return false;
     }
