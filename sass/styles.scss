@@ -40,6 +40,7 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8);
+  overflow: hidden;
 }
 
 .display {
@@ -113,5 +114,47 @@ body {
 .width-50 {
   flex: 50%;
   border-radius: 10rem;
+}
+
+.glow-fade-number {
+  animation: glow-fade-number 1s;
+}
+
+.glow-fade-operator {
+  animation: glow-fade-operator 1s;
+}
+
+.glow-fade-clear {
+  animation: glow-fade-clear 1s;
+}
+
+@keyframes glow-fade-number {
+  0% {
+    background-color: #dedede;
+  }
+
+  100% {
+    background-color: var(--color-number);
+  }
+}
+
+@keyframes glow-fade-operator {
+  0% {
+    background-color: #dedede;
+  }
+
+  100% {
+    background-color: var(--color-operator);
+  }
+}
+
+@keyframes glow-fade-clear {
+  0% {
+    background-color: #dedede;
+  }
+
+  100% {
+    background-color: var(--color-clear);
+  }
 }
 

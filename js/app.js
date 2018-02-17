@@ -1,4 +1,7 @@
+'use strict';
+
 (() => {
+
   const [buttons] = Array.from(document.getElementsByClassName('buttons'));
   const [inputDisplay] = document.getElementsByClassName('display__current');
   const [totalDisplay] = document.getElementsByClassName('display__total');
@@ -24,19 +27,24 @@
     switch (true) {
       case isNumber:
         input = e.target.id;
+        animate(e, 'number');
         handleNumber(input);
         break;
       case isDecimal:
+        animate(e, 'number');
         handleDecimal();
         break;
       case isOperator:
         input = e.target.id;
+        animate(e, 'operator');
         handleOperator(input);
         break;
       case isAC:
+        animate(e, 'clear');
         clearAll();
         break;
       case isCE:
+        animate(e, 'clear');
         clearInput();
         break;
       default:
@@ -44,6 +52,14 @@
     }
     updateDisplay();
   }
+
+  function animate(e, type) {
+    const allButtons = Array.from(document.querySelectorAll('.buttons__btn'));
+    allButtons.forEach((btn) => btn.classList.remove(`glow-fade-${type}`));
+    void e.target.offsetWidth; // hack to allow animation to run consecutively on same element
+    e.target.classList.add(`glow-fade-${type}`);
+  }
+
 
   function handleNumber(num) {
     if (state.operator) {
