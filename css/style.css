@@ -31,7 +31,7 @@ body {
   height: 75rem;
   width: 42rem;
   background: var(--color-background);
-  margin: 8rem auto;
+  margin: 6rem auto;
   display: flex;
   flex-direction: column;
   box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8);
@@ -65,7 +65,7 @@ body {
   height: 9rem; }
 
 .buttons {
-  padding: 1.3rem;
+  padding: 0 1.3rem;
   font-size: 3.5rem; }
   .buttons__btn {
     width: 25%;
@@ -75,9 +75,13 @@ body {
     border-radius: 100%;
     text-align: center;
     cursor: pointer;
-    user-select: none; }
+    user-select: none;
+    transition: all 0.3s;
+    backface-visibility: hidden; }
     .buttons__btn:not(:last-child) {
       margin-right: 1.3rem; }
+    .buttons__btn:hover {
+      opacity: 0.9; }
 
 .btn--number, .btn--grey {
   background: var(--color-number); }
@@ -88,6 +92,15 @@ body {
 .btn--clear {
   background: var(--color-clear);
   color: var(--color-background); }
+
+.footer {
+  font-size: 2rem;
+  text-align: center; }
+  .footer__link {
+    text-decoration: none;
+    color: var(--color-text); }
+    .footer__link:hover {
+      color: #dedede; }
 
 .width-50 {
   flex: 50%;

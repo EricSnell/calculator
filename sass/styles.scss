@@ -36,7 +36,7 @@ body {
   height: 75rem;
   width: 42rem;
   background: var(--color-background);
-  margin: 8rem auto;
+  margin: 6rem auto;
   display: flex;
   flex-direction: column;
   box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8);
@@ -77,7 +77,7 @@ body {
 }
 
 .buttons {
-  padding: 1.3rem;
+  padding: 0 1.3rem;
   font-size: 3.5rem;
   
   &__btn {
@@ -89,9 +89,15 @@ body {
     text-align: center;
     cursor: pointer;
     user-select: none;
+    transition: all 0.3s;
+    backface-visibility: hidden;
     
     &:not(:last-child) {
       margin-right: 1.3rem;
+    }
+
+    &:hover {
+      opacity: 0.9;
     }
   }
 }
@@ -108,6 +114,20 @@ body {
   &--clear {
     background: var(--color-clear);
     color: var(--color-background);
+  }
+}
+
+.footer {
+  font-size: 2rem;
+  text-align: center;
+  
+  &__link {
+    text-decoration: none;
+    color: var(--color-text);
+    
+    &:hover {
+      color: #dedede;
+    }
   }
 }
 
