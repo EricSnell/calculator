@@ -63,12 +63,15 @@ body {
     justify-content: flex-end;
     align-items: center;
     padding-right: 2rem; }
+    @media only screen and (max-width: 460px) {
+      .display__total {
+        display: none; } }
 
 .row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
-  height: 9rem; }
+  height: 8.5rem; }
 
 .buttons {
   padding: 0 1.3rem;
