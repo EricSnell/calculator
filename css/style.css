@@ -35,7 +35,8 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8);
-  overflow: hidden; }
+  overflow: hidden;
+  padding: 1.6rem; }
   @media only screen and (max-width: 460px) {
     .calculator {
       width: 100vw;
@@ -54,15 +55,13 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    font-size: 11rem;
-    padding-right: 2rem; }
+    font-size: 11rem; }
   .display__total {
     flex: 25%;
     font-size: 3rem;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    padding-right: 2rem; }
+    align-items: center; }
     @media only screen and (max-width: 460px) {
       .display__total {
         display: none; } }
@@ -70,11 +69,11 @@ body {
 .row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
   height: 8.5rem; }
+  .row:not(:last-child) {
+    margin-bottom: 1.5rem; }
 
 .buttons {
-  padding: 0 1.3rem;
   font-size: 3.5rem; }
   .buttons__btn {
     width: 25%;
