@@ -1,9 +1,9 @@
 :root {
   --color-background: #000000;
   --color-text: #ffffff;
-  --color-number: #333333;
-  --color-operator: #EE9943;
-  --color-clear: #A8A9AC; }
+  --color-number: #2D2D2D;
+  --color-operator: #F98D00;
+  --color-clear: #9C9C9C; }
 
 * {
   margin: 0;
@@ -52,6 +52,9 @@ body {
   flex-direction: column;
   border: 1px solid red;
   flex: 0 30%; }
+  @media only screen and (max-width: 460px) {
+    .display {
+      flex: 0 35%; } }
   .display__current {
     flex: 75%;
     display: flex;
@@ -82,9 +85,12 @@ body {
   flex: 0 70%;
   flex-direction: column;
   justify-content: space-between; }
+  @media only screen and (max-width: 460px) {
+    .buttons {
+      flex: 0 65%; } }
   .buttons__btn {
     width: 9rem;
-    height: 9rem;
+    height: 85%;
     display: flex;
     justify-content: center;
     align-items: center;
