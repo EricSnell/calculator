@@ -60,6 +60,10 @@ body {
   flex-direction: column;
   border: 1px solid red;
   flex: 0 30%;
+
+  @media only screen and (max-width: 460px) {
+    flex: 0 25%;
+  }
   
   &__current {
     flex: 75%;
@@ -109,10 +113,10 @@ body {
 
   @media only screen and (max-width: 460px) {
     font-size: 2.5rem;
+    flex: 0 75%;
   }
   
   &__btn {
-    //width: 25%;
     width: 9rem;
     height: 85%;
     display: flex;

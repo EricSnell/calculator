@@ -52,6 +52,9 @@ body {
   flex-direction: column;
   border: 1px solid red;
   flex: 0 30%; }
+  @media only screen and (max-width: 460px) {
+    .display {
+      flex: 0 25%; } }
   .display__current {
     flex: 75%;
     display: flex;
@@ -87,7 +90,8 @@ body {
   justify-content: space-between; }
   @media only screen and (max-width: 460px) {
     .buttons {
-      font-size: 2.5rem; } }
+      font-size: 2.5rem;
+      flex: 0 75%; } }
   .buttons__btn {
     width: 9rem;
     height: 85%;
