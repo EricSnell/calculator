@@ -28,6 +28,7 @@ body {
   list-style: none; }
 
 .calculator {
+  border: 1px solid green;
   height: 75rem;
   width: 42rem;
   background: var(--color-background);
@@ -49,7 +50,8 @@ body {
   text-align: right;
   display: flex;
   flex-direction: column;
-  height: 30vh; }
+  border: 1px solid red;
+  flex: 0 30%; }
   .display__current {
     flex: 75%;
     display: flex;
@@ -69,14 +71,20 @@ body {
 .row {
   display: flex;
   justify-content: space-between;
-  height: 8.5rem; }
-  .row:not(:last-child) {
-    margin-bottom: 1.5rem; }
+  align-items: center;
+  border: 1px solid aqua;
+  flex: 1; }
 
 .buttons {
-  font-size: 3.5rem; }
+  font-size: 3.5rem;
+  border: 1px solid white;
+  display: flex;
+  flex: 0 70%;
+  flex-direction: column;
+  justify-content: space-between; }
   .buttons__btn {
-    width: 25%;
+    width: 9rem;
+    height: 9rem;
     display: flex;
     justify-content: center;
     align-items: center;

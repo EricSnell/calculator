@@ -33,6 +33,7 @@ body {
 }
 
 .calculator {
+  border: 1px solid green;
   height: 75rem;
   width: 42rem;
   background: var(--color-background);
@@ -42,6 +43,7 @@ body {
   box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8);
   overflow: hidden;
   padding: 1.6rem;
+ // justify-content: center;
 
   @media only screen and (max-width: 460px) {
     width: 100vw;
@@ -56,7 +58,9 @@ body {
   text-align: right;
   display: flex;
   flex-direction: column;
-  height: 30vh;
+  border: 1px solid red;
+  flex: 0 30%;
+
   
   &__current {
     flex: 75%;
@@ -82,18 +86,29 @@ body {
 .row {
   display: flex;
   justify-content: space-between;
-  height: 8.5rem;
+  align-items: center;
+  //height: 8.3rem;
+  border: 1px solid aqua;
+  flex: 1;
   
   &:not(:last-child) {
-    margin-bottom: 1.5rem;
+   // margin-bottom: 1.5rem;
   }
 }
 
 .buttons {
   font-size: 3.5rem;
+  border: 1px solid white;
+  display: flex;
+  flex: 0 70%;
+  flex-direction: column;
+  justify-content: space-between;
+
   
   &__btn {
-    width: 25%;
+    //width: 25%;
+    width: 9rem;
+    height: 9rem;
     display: flex;
     justify-content: center;
     align-items: center;
