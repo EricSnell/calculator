@@ -60,11 +60,6 @@ body {
   flex-direction: column;
   border: 1px solid red;
   flex: 0 30%;
-
-  @media only screen and (max-width: 460px) {
-    flex: 0 35%;
-  }
-
   
   &__current {
     flex: 75%;
@@ -72,6 +67,10 @@ body {
     justify-content: flex-end;
     align-items: flex-end;
     font-size: 11rem;
+
+    @media only screen and (max-width: 460px) {
+      font-size: 9rem;
+    }
   }
   
   &__total {
@@ -109,9 +108,8 @@ body {
   justify-content: space-between;
 
   @media only screen and (max-width: 460px) {
-    flex: 0 65%;
+    font-size: 2.5rem;
   }
-
   
   &__btn {
     //width: 25%;

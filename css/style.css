@@ -52,15 +52,15 @@ body {
   flex-direction: column;
   border: 1px solid red;
   flex: 0 30%; }
-  @media only screen and (max-width: 460px) {
-    .display {
-      flex: 0 35%; } }
   .display__current {
     flex: 75%;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     font-size: 11rem; }
+    @media only screen and (max-width: 460px) {
+      .display__current {
+        font-size: 9rem; } }
   .display__total {
     flex: 25%;
     font-size: 3rem;
@@ -87,7 +87,7 @@ body {
   justify-content: space-between; }
   @media only screen and (max-width: 460px) {
     .buttons {
-      flex: 0 65%; } }
+      font-size: 2.5rem; } }
   .buttons__btn {
     width: 9rem;
     height: 85%;
