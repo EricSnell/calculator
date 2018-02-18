@@ -36,13 +36,19 @@ body {
   flex-direction: column;
   box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8);
   overflow: hidden; }
+  @media only screen and (max-width: 460px) {
+    .calculator {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      justify-content: center; } }
 
 .display {
-  flex: 1;
   font-weight: 100;
   text-align: right;
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  height: 30vh; }
   .display__current {
     flex: 75%;
     display: flex;
@@ -96,6 +102,9 @@ body {
 .footer {
   font-size: 2rem;
   text-align: center; }
+  @media only screen and (max-width: 460px) {
+    .footer {
+      display: none; } }
   .footer__link {
     text-decoration: none;
     color: var(--color-text); }

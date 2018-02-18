@@ -41,14 +41,21 @@ body {
   flex-direction: column;
   box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8);
   overflow: hidden;
+
+  @media only screen and (max-width: 460px) {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    justify-content: center;
+  }
 }
 
 .display {
-  flex: 1;
   font-weight: 100;
   text-align: right;
   display: flex;
   flex-direction: column;
+  height: 30vh;
   
   &__current {
     flex: 75%;
@@ -120,6 +127,10 @@ body {
 .footer {
   font-size: 2rem;
   text-align: center;
+
+  @media only screen and (max-width: 460px) {
+    display: none;
+  }
   
   &__link {
     text-decoration: none;
