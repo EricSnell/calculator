@@ -27,9 +27,18 @@ body {
   box-sizing: inherit;
   list-style: none; }
 
+@media only screen and (max-width: 460px) {
+  .app {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-background); } }
+
 .calculator {
   border: 1px solid green;
   height: 75rem;
+  max-height: 100vh;
   width: 42rem;
   background: var(--color-background);
   margin: 6rem auto;
@@ -41,7 +50,6 @@ body {
   @media only screen and (max-width: 460px) {
     .calculator {
       width: 100vw;
-      height: 100vh;
       margin: 0;
       justify-content: center; } }
 
@@ -90,7 +98,7 @@ body {
   justify-content: space-between; }
   @media only screen and (max-width: 460px) {
     .buttons {
-      font-size: 2.5rem;
+      font-size: 3rem;
       flex: 0 75%; } }
   .buttons__btn {
     width: 9rem;

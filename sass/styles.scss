@@ -32,9 +32,20 @@ body {
   list-style: none;
 }
 
+.app {
+  @media only screen and (max-width: 460px) {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-background);
+  }
+}
+
 .calculator {
   border: 1px solid green;
   height: 75rem;
+  max-height: 100vh;
   width: 42rem;
   background: var(--color-background);
   margin: 6rem auto;
@@ -43,11 +54,9 @@ body {
   box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8);
   overflow: hidden;
   padding: 1.6rem;
- // justify-content: center;
 
   @media only screen and (max-width: 460px) {
     width: 100vw;
-    height: 100vh;
     margin: 0;
     justify-content: center;
   }
@@ -112,7 +121,7 @@ body {
   justify-content: space-between;
 
   @media only screen and (max-width: 460px) {
-    font-size: 2.5rem;
+    font-size: 3rem;
     flex: 0 75%;
   }
   
