@@ -118,7 +118,6 @@
       clearAll();
     } else if (state.operator) {
       updateState({ operator: false, current: '' });
-      console.log(state);
     } else if (state.current.length) {
       updateState({ current: '' });
     } else {
