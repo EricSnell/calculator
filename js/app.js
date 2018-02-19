@@ -17,6 +17,7 @@
   buttons.addEventListener('click', runInput);
 
   function runInput(e) {
+    e.preventDefault();
     let input;
     const isNumber = e.target.classList.contains('btn--number');
     const isOperator = e.target.classList.contains('btn--operator');

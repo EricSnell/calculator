@@ -1,7 +1,7 @@
 :root {
   --color-background: #000000;
   --color-text: #ffffff;
-  --color-number: #2D2D2D;
+  --color-numbers: #2D2D2D;
   --color-operator: #F98D00;
   --color-clear: #9C9C9C;
 }
@@ -12,13 +12,12 @@
 }
 
 html {
+  height: 100%;
   font-size: 62.5%;
   box-sizing: border-box;
-  height: 100%;
 }
 
 body {
-  font-size: 4rem;
   font-weight: 400;
   color: var(--color-text);
   font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -42,25 +41,29 @@ body {
   }
 }
 
+/*=============================
+      CALCULATOR STYLING
+==============================*/
 .calculator {
-  height: 75rem;
-  max-height: 100vh;
   width: 42rem;
-  background: var(--color-background);
+  height: 75rem;
   margin: 6rem auto;
+  padding: 1.6rem;
   display: flex;
   flex-direction: column;
+  background: var(--color-background);
   box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8);
   overflow: hidden;
-  padding: 1.6rem;
-
+  
   @media only screen and (max-width: 460px) {
     width: 100vw;
+    max-height: 100vh;
     margin: 0;
     justify-content: center;
   }
 }
 
+// Calculator Display
 .display {
   font-weight: 100;
   text-align: right;
@@ -86,10 +89,10 @@ body {
   
   &__total {
     flex: 25%;
-    font-size: 3rem;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    font-size: 3rem;
 
     @media only screen and (max-width: 460px) {
       display: none;
@@ -97,37 +100,42 @@ body {
   }
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex: 1;
-}
-
+// Calculator Buttons
 .buttons {
-  font-size: 3.5rem;
-  display: flex;
   flex: 0 70%;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
-
+  font-size: 3.5rem;
+  
   @media only screen and (max-width: 460px) {
-    font-size: 3rem;
     flex: 0 75%;
+    font-size: 3rem;
+  }
+
+  .row {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   
   &__btn {
     width: 9rem;
     height: 85%;
+    font-size: 3.5rem;
+    color: var(--color-text);
+    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 100%;
-    text-align: center;
+    border: none;
     cursor: pointer;
     user-select: none;
-    transition: all 0.3s;
     backface-visibility: hidden;
+    outline: none;
+    transition: all 0.3s;
     
     &:not(:last-child) {
       margin-right: 1.3rem;
@@ -141,7 +149,7 @@ body {
 
 .btn {
   &--number, &--grey {
-    background: var(--color-number);
+    background: var(--color-numbers);
   }
 
   &--operator {
@@ -154,6 +162,9 @@ body {
   }
 }
 
+/*=====================
+        FOOTER
+======================*/
 .footer {
   font-size: 2rem;
   text-align: center;
@@ -172,36 +183,41 @@ body {
   }
 }
 
+
+// Helper Classes
 .width-50 {
   flex: 50%;
   border-radius: 10rem;
 }
 
 .glow-fade-number {
-  animation: glow-fade-number 1s;
+  animation: glow-fade-number .5s ease-in;
 }
 
 .glow-fade-operator {
-  animation: glow-fade-operator 1s;
+  animation: glow-fade-operator .5s ease-in;
 }
 
 .glow-fade-clear {
-  animation: glow-fade-clear 1s;
+  animation: glow-fade-clear .5s ease-in;
 }
 
+
+// Animations
 @keyframes glow-fade-number {
   0% {
-    background-color: #dedede;
+    background-color: #D0D0D0;
   }
-
+  
   100% {
-    background-color: var(--color-number);
+    background-color: var(--color-numbers);
   }
 }
 
 @keyframes glow-fade-operator {
   0% {
-    background-color: #dedede;
+    background-color: var(--color-text);
+    color: var(--color-operator);
   }
 
   100% {
@@ -211,7 +227,7 @@ body {
 
 @keyframes glow-fade-clear {
   0% {
-    background-color: #dedede;
+    background-color: #F0F0F0;
   }
 
   100% {
