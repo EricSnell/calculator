@@ -3,7 +3,9 @@
   --color-text: #ffffff;
   --color-numbers: #2D2D2D;
   --color-operator: #F98D00;
-  --color-clear: #9C9C9C; }
+  --color-clear: #9C9C9C;
+  --btn-width: 9rem;
+  --btn-margin: 1.3rem; }
 
 * {
   margin: 0;
@@ -95,10 +97,10 @@ body {
   .buttons .row {
     flex: 1;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center; }
   .buttons__btn {
-    width: 9rem;
+    width: var(--btn-width);
     height: 85%;
     font-size: 3.5rem;
     color: var(--color-text);
@@ -114,7 +116,7 @@ body {
     outline: none;
     transition: all 0.3s; }
     .buttons__btn:not(:last-child) {
-      margin-right: 1.3rem; }
+      margin-right: var(--btn-margin); }
     .buttons__btn:hover {
       opacity: 0.9; }
 
@@ -144,7 +146,7 @@ body {
       color: #dedede; }
 
 .width-50 {
-  flex: 50%;
+  width: calc((var(--btn-width) * 2) + var(--btn-margin));
   border-radius: 10rem; }
 
 .glow-fade-number {
