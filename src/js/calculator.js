@@ -178,8 +178,6 @@ export const Calculator = () => {
   }
 
   function updateDisplay() {
-    console.log(state.current);
-    console.log(state.total + state.current);
     inputDisplay.innerText = state.current;
     totalDisplay.innerText = state.total + state.current;
   }
