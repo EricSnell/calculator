@@ -1,7 +1,7 @@
-'use strict';
+import '../sass/styles.scss';
+('use strict');
 
 (() => {
-
   const [buttons] = Array.from(document.getElementsByClassName('buttons'));
   const [inputDisplay] = document.getElementsByClassName('display__current');
   const [totalDisplay] = document.getElementsByClassName('display__total');
@@ -12,7 +12,7 @@
     operator: false,
     total: '',
     answered: false
-  }
+  };
 
   buttons.addEventListener('click', runInput);
 
@@ -56,11 +56,10 @@
 
   function animate(e, type) {
     const allButtons = Array.from(document.querySelectorAll('.buttons__btn'));
-    allButtons.forEach((btn) => btn.classList.remove(`glow-fade-${type}`));
+    allButtons.forEach(btn => btn.classList.remove(`glow-fade-${type}`));
     void e.target.offsetWidth; // hack to allow animation to run consecutively on same element
     e.target.classList.add(`glow-fade-${type}`);
   }
-
 
   function handleNumber(num) {
     if (state.operator) {
@@ -69,14 +68,15 @@
       updateState({ operator: false, current: '', total: newTotal });
     }
     if (validNumber(num)) {
-      const newCurrent = state.current + num
+      const newCurrent = state.current + num;
       updateState({ current: newCurrent });
     }
     return true;
   }
 
   function validNumber(num) {
-    const currentIsNumber = typeof parseFloat(state.current) === 'number' && state.current.length > 0;
+    const currentIsNumber =
+      typeof parseFloat(state.current) === 'number' && state.current.length > 0;
     const ifFirstNotZero = state.current.length === 0 && parseInt(num, 10) > 0;
     return currentIsNumber || ifFirstNotZero;
   }
@@ -102,12 +102,26 @@
     if (state.operator || state.current.length === 0) {
       return false;
     } else if (state.answered) {
-      updateState({ current: operator, operator: true, total: state.current, answered: false });
-    } else if (typeof parseFloat(state.current) === 'number' && operator === '=') {
+      updateState({
+        current: operator,
+        operator: true,
+        total: state.current,
+        answered: false
+      });
+    } else if (
+      typeof parseFloat(state.current) === 'number' &&
+      operator === '='
+    ) {
       solveEquation();
     } else if (!state.operator) {
       const newTotal = state.total + state.current;
-      updateState({ operator: true, decimal: false, current: operator, total: newTotal, answered: false });
+      updateState({
+        operator: true,
+        decimal: false,
+        current: operator,
+        total: newTotal,
+        answered: false
+      });
     } else {
       return false;
     }
@@ -127,14 +141,25 @@
   }
 
   function clearAll() {
-    updateState({ current: '', decimal: false, operator: false, total: '', answered: false });
+    updateState({
+      current: '',
+      decimal: false,
+      operator: false,
+      total: '',
+      answered: false
+    });
   }
 
   function solveEquation() {
     const equation = state.total + state.current;
     const answer = eval(equation).toString();
     const fullEquation = `${equation}=`;
-    updateState({ decimal: false, current: answer, total: fullEquation, answered: true });
+    updateState({
+      decimal: false,
+      current: answer,
+      total: fullEquation,
+      answered: true
+    });
   }
 
   function updateDisplay() {
@@ -145,5 +170,4 @@
   function updateState(propsToUpdate = {}) {
     state = Object.assign({}, state, propsToUpdate);
   }
-
 })();
