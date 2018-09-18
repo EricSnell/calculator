@@ -147,6 +147,10 @@ export const Calculator = () => {
     }
   }
 
+  function addCommasToNum(num) {
+    return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
   function clearAll() {
     updateState({
       current: '',
@@ -170,8 +174,9 @@ export const Calculator = () => {
   }
 
   function updateDisplay() {
-    inputDisplay.innerText = state.current;
-    totalDisplay.innerText = state.total + state.current;
+    inputDisplay.innerText = addCommasToNum(state.current);
+    totalDisplay.innerText =
+      addCommasToNum(state.total) + addCommasToNum(state.current);
   }
 
   function updateState(propsToUpdate = {}) {
