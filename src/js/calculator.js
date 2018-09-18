@@ -73,10 +73,14 @@ export const Calculator = () => {
       updateState({ operator: false, current: '', total: newTotal });
     }
     if (validNumber(num)) {
-      const newCurrent = state.current + num;
-      updateState({ current: newCurrent });
+      const newCurrent = state.current.replace(/,/g, '') + num;
+      updateState({
+        current: Number(newCurrent).toLocaleString(undefined, {
+          maximumSignificantDigits: 8
+        })
+      });
     }
-    return true;
+    return;
   }
 
   /* Checks If Number Entered Is Valid Input */
@@ -147,10 +151,6 @@ export const Calculator = () => {
     }
   }
 
-  function addCommasToNum(num) {
-    return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
-
   function clearAll() {
     updateState({
       current: '',
@@ -162,8 +162,12 @@ export const Calculator = () => {
   }
 
   function solveEquation() {
-    const equation = state.total + state.current;
-    const answer = eval(equation).toString();
+    const equation =
+      state.total.replace(/,/g, '') + state.current.replace(/,/g, '');
+    console.log(equation);
+    const answer = eval(equation).toLocaleString(undefined, {
+      maximumSignificantDigits: 8
+    });
     const fullEquation = `${equation}=`;
     updateState({
       decimal: false,
@@ -174,9 +178,10 @@ export const Calculator = () => {
   }
 
   function updateDisplay() {
-    inputDisplay.innerText = addCommasToNum(state.current);
-    totalDisplay.innerText =
-      addCommasToNum(state.total) + addCommasToNum(state.current);
+    console.log(state.current);
+    console.log(state.total + state.current);
+    inputDisplay.innerText = state.current;
+    totalDisplay.innerText = state.total + state.current;
   }
 
   function updateState(propsToUpdate = {}) {
