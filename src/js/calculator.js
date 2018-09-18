@@ -8,7 +8,7 @@ export const Calculator = () => {
 
   /* Application State */
   let state = {
-    current: '',
+    current: '0',
     decimal: false,
     operator: false,
     total: '',
@@ -153,7 +153,7 @@ export const Calculator = () => {
 
   function clearAll() {
     updateState({
-      current: '',
+      current: '0',
       decimal: false,
       operator: false,
       total: '',
@@ -162,9 +162,8 @@ export const Calculator = () => {
   }
 
   function solveEquation() {
-    const equation =
-      state.total.replace(/,/g, '') + state.current.replace(/,/g, '');
-    console.log(equation);
+    const equation = (state.total + state.current).replace(/,/g, '');
+    console.log('eq:', (state.total + state.current).replace(/,/g, ''));
     const answer = eval(equation).toLocaleString(undefined, {
       maximumSignificantDigits: 8
     });
@@ -172,7 +171,7 @@ export const Calculator = () => {
     updateState({
       decimal: false,
       current: answer,
-      total: fullEquation,
+      total: '',
       answered: true
     });
   }
