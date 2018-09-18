@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    title iO-JS Calculator
+
+  body
+    main(class="app")
+      .calculator
+        .display
+          .display__total
+          .display__current
+        
+        .buttons
+          .row
+            button(class="buttons__btn btn--clear width-50" id="AC") AC
+            button(class="buttons__btn btn--clear" id="AC") CE
+            button(class="buttons__btn btn--operator" id="/") &#xf7;
+          
+          .row
+            button(class="buttons__btn btn--number" id="7") 7
+            button(class="buttons__btn btn--number" id="8") 8
+            button(class="buttons__btn btn--number" id="9") 9
+            button(class="buttons__btn btn--operator" id="*") &#xd7;
+
+          .row
+            button(class="buttons__btn btn--number" id="4") 4
+            button(class="buttons__btn btn--number" id="5") 5
+            button(class="buttons__btn btn--number" id="6") 6
+            button(class="buttons__btn btn--operator" id="-") &#x2212;
+
+          .row
+            button(class="buttons__btn btn--number" id="1") 1
+            button(class="buttons__btn btn--number" id="2") 2
+            button(class="buttons__btn btn--number" id="3") 3
+            button(class="buttons__btn btn--operator" id="+") &#x2b;
+
+          .row
+            button(class="buttons__btn btn--number width-50" id="0") 0
+            button(class="buttons__btn btn--grey" id=".") .
+            button(class="buttons__btn btn--operator" id="=") &#x3d;
+
+        .footer(class="footer")
+          | Designed and Coded by
+          a(class="footer__link", href="https://github.com/EricSnell") Eric Snell
