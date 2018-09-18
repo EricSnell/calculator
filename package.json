@@ -4,12 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "watch:sass": "node-sass sass/styles.scss css/style.css -w",
-    "start": "npm-run-all --parallel watch:sass",
-    "compile:sass": "node-sass sass/styles.scss css/style.comp.css",
-    "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' css/style.comp.css -o css/style.prefix.css",
-    "compress:css": "node-sass css/style.prefix.css css/style.css --output-style compressed",
-    "build:css": "npm-run-all compile:sass prefix:css compress:css"
+    "start": "webpack-dev-server --mode development --open --hot",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -21,19 +17,23 @@
     "url": "https://github.com/EricSnell/calculator/issues"
   },
   "homepage": "https://github.com/EricSnell/calculator#readme",
-  "dependencies": {
-    "autoprefixer": "^7.2.6",
+  "dependencies": {},
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^1.0.0",
     "eslint": "^4.17.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.8.0",
-    "node-sass": "^4.7.2",
-    "npm-run-all": "^4.1.2",
-    "postcss-cli": "^5.0.0"
-  },
-  "devDependencies": {
-    "eslint": "^4.17.0",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.8.0"
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.2",
+    "node-sass": "^4.9.3",
+    "pug-html-loader": "^1.1.5",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.0",
+    "webpack": "^4.19.0",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8"
   }
 }
