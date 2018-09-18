@@ -1,9 +1,9 @@
 :root {
-  --color-background: #000000;
-  --color-text: #ffffff;
-  --color-numbers: #2D2D2D;
-  --color-operator: #F98D00;
-  --color-clear: #9C9C9C;
+  --color-background: #000;
+  --color-text: #fff;
+  --color-numbers: #2d2d2d;
+  --color-operator: #f98d00;
+  --color-clear: #9c9c9c;
 
   --btn-width: 9rem;
   --btn-margin: 1.3rem;
@@ -21,10 +21,9 @@ html {
 }
 
 body {
-  font-weight: 400;
   color: var(--color-text);
   font-family: 'Helvetica Neue', Arial, sans-serif;
-  background: #333;
+  background: #555;
 }
 
 *,
@@ -56,8 +55,9 @@ body {
   flex-direction: column;
   background: var(--color-background);
   box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8);
+  border-radius: 2rem;
   overflow: hidden;
-  
+
   @media only screen and (max-width: 460px) {
     width: 100vw;
     max-height: 100vh;
@@ -77,7 +77,7 @@ body {
   @media only screen and (max-width: 460px) {
     flex: 0 25%;
   }
-  
+
   &__current {
     flex: 75%;
     display: flex;
@@ -89,7 +89,7 @@ body {
       font-size: 9rem;
     }
   }
-  
+
   &__total {
     flex: 25%;
     display: flex;
@@ -109,8 +109,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-size: 3.5rem;
-  
+  //font-size: 3.5rem;
+
   @media only screen and (max-width: 460px) {
     flex: 0 75%;
     font-size: 3rem;
@@ -122,16 +122,16 @@ body {
     justify-content: center;
     align-items: center;
   }
-  
+
   &__btn {
     width: var(--btn-width);
     height: 85%;
-    font-size: 3.5rem;
+    font-size: 4rem;
     color: var(--color-text);
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    //text-align: center;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
     border-radius: 100%;
     border: none;
     cursor: pointer;
@@ -139,7 +139,7 @@ body {
     backface-visibility: hidden;
     outline: none;
     transition: all 0.3s;
-    
+
     &:not(:last-child) {
       margin-right: var(--btn-margin);
     }
@@ -151,14 +151,15 @@ body {
 }
 
 .btn {
-  &--number, &--grey {
+  &--number,
+  &--grey {
     background: var(--color-numbers);
   }
 
   &--operator {
     background: var(--color-operator);
   }
-  
+
   &--clear {
     background: var(--color-clear);
     color: var(--color-background);
@@ -171,21 +172,22 @@ body {
 .footer {
   font-size: 2rem;
   text-align: center;
+  font-weight: 100;
+  letter-spacing: 1px;
 
   @media only screen and (max-width: 460px) {
     display: none;
   }
-  
+
   &__link {
     text-decoration: none;
     color: var(--color-text);
-    
+
     &:hover {
       color: #dedede;
     }
   }
 }
-
 
 // Helper Classes
 .width-50 {
@@ -194,24 +196,23 @@ body {
 }
 
 .glow-fade-number {
-  animation: glow-fade-number .5s ease-in;
+  animation: glow-fade-number 0.5s ease-in;
 }
 
 .glow-fade-operator {
-  animation: glow-fade-operator .5s ease-in;
+  animation: glow-fade-operator 0.5s ease-in;
 }
 
 .glow-fade-clear {
-  animation: glow-fade-clear .5s ease-in;
+  animation: glow-fade-clear 0.5s ease-in;
 }
-
 
 // Animations
 @keyframes glow-fade-number {
   0% {
-    background-color: #D0D0D0;
+    background-color: #d0d0d0;
   }
-  
+
   100% {
     background-color: var(--color-numbers);
   }
@@ -230,11 +231,10 @@ body {
 
 @keyframes glow-fade-clear {
   0% {
-    background-color: #F0F0F0;
+    background-color: #f0f0f0;
   }
 
   100% {
     background-color: var(--color-clear);
   }
 }
-
