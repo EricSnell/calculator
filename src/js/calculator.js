@@ -1,10 +1,12 @@
 ('use strict');
 
 export const Calculator = () => {
+  /* Cache DOM */
   const [buttons] = Array.from(document.getElementsByClassName('buttons'));
   const [inputDisplay] = document.getElementsByClassName('display__current');
   const [totalDisplay] = document.getElementsByClassName('display__total');
 
+  /* Application State */
   let state = {
     current: '',
     decimal: false,
@@ -13,8 +15,10 @@ export const Calculator = () => {
     answered: false
   };
 
+  /* Event Listeners */
   buttons.addEventListener('click', runInput);
 
+  /* Function To Run On Button Click */
   function runInput(e) {
     e.preventDefault();
     let input;
@@ -53,6 +57,7 @@ export const Calculator = () => {
     updateDisplay();
   }
 
+  /* Button Click Animation */
   function animate(e, type) {
     const allButtons = Array.from(document.querySelectorAll('.buttons__btn'));
     allButtons.forEach(btn => btn.classList.remove(`glow-fade-${type}`));
@@ -60,6 +65,7 @@ export const Calculator = () => {
     e.target.classList.add(`glow-fade-${type}`);
   }
 
+  /* If Number Button Pressed */
   function handleNumber(num) {
     if (state.operator) {
       // Append operator to total and remove from current state -- turning off flag
@@ -73,6 +79,7 @@ export const Calculator = () => {
     return true;
   }
 
+  /* Checks If Number Entered Is Valid Input */
   function validNumber(num) {
     const currentIsNumber =
       typeof parseFloat(state.current) === 'number' && state.current.length > 0;
@@ -80,6 +87,7 @@ export const Calculator = () => {
     return currentIsNumber || ifFirstNotZero;
   }
 
+  /* Handles Decimal Input */
   function handleDecimal() {
     if (!state.decimal) {
       if (state.operator) {
