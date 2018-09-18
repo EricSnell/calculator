@@ -2,9 +2,9 @@
 
 export const Calculator = () => {
   /* Cache DOM */
-  const [buttons] = Array.from(document.getElementsByClassName('buttons'));
-  const [inputDisplay] = document.getElementsByClassName('display__current');
-  const [totalDisplay] = document.getElementsByClassName('display__total');
+  const [buttons] = Array.from(document.querySelectorAll('.buttons'));
+  const [inputDisplay] = document.querySelectorAll('.display__current');
+  const [totalDisplay] = document.querySelectorAll('.display__total');
 
   /* Application State */
   let state = {
@@ -153,7 +153,7 @@ export const Calculator = () => {
 
   function clearAll() {
     updateState({
-      current: '0',
+      current: '',
       decimal: false,
       operator: false,
       total: '',
