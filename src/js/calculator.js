@@ -67,6 +67,7 @@ export const Calculator = () => {
 
   /* If Number Button Pressed */
   function handleNumber(num) {
+    if (state.current.replace(/,/g, '').length >= 9) return;
     if (state.operator) {
       // Append operator to total and remove from current state -- turning off flag
       const newTotal = state.total + state.current;
@@ -76,7 +77,7 @@ export const Calculator = () => {
       const newCurrent = state.current.replace(/,/g, '') + num;
       updateState({
         current: Number(newCurrent).toLocaleString(undefined, {
-          maximumSignificantDigits: 8
+          maximumSignificantDigits: 9
         })
       });
     }
