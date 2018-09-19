@@ -67,7 +67,8 @@ export const Calculator = () => {
 
   /* If Number Button Pressed */
   function handleNumber(num) {
-    if (state.current.replace(/,/g, '').length >= 9) return;
+    // Prevent user from entering more than 9 digits
+    if (state.current.replace(/,|\./g, '').length >= 9) return;
     if (state.operator) {
       // Append operator to total and remove from current state -- turning off flag
       const newTotal = state.total + state.current;
@@ -187,19 +188,15 @@ export const Calculator = () => {
     switch (inputLength) {
       case 6:
         inputDisplay.style.fontSize = '10.3rem';
-        console.log('6');
         break;
       case 7:
         inputDisplay.style.fontSize = '8.4rem';
-        console.log('7');
         break;
       case 8:
         inputDisplay.style.fontSize = '7.4rem';
-        console.log('8');
         break;
       case 9:
         inputDisplay.style.fontSize = '6.8rem';
-        console.log('9');
         break;
       default:
         inputDisplay.style.fontSize = '11rem';
