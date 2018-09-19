@@ -177,8 +177,30 @@ export const Calculator = () => {
   }
 
   function updateDisplay() {
+    setInputFontSize();
     inputDisplay.innerText = state.current;
     totalDisplay.innerText = state.total + state.current;
+  }
+
+  function setInputFontSize() {
+    const inputLength = state.current.replace(/,/g, '').length;
+    switch (inputLength) {
+      case 6:
+        inputDisplay.style.fontSize = '10.3rem';
+        break;
+      case 7:
+        inputDisplay.style.fontSize = '8.4rem';
+        break;
+      case 8:
+        inputDisplay.style.fontSize = '7.4rem';
+        break;
+      case 9:
+        inputDisplay.style.fontSize = '6.8rem';
+        break;
+      default:
+        inputDisplay.style.fontSize = '11rem';
+        break;
+    }
   }
 
   function updateState(propsToUpdate = {}) {
