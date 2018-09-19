@@ -164,7 +164,6 @@ export const Calculator = () => {
 
   function solveEquation() {
     const equation = (state.total + state.current).replace(/,/g, '');
-    console.log('eq:', (state.total + state.current).replace(/,/g, ''));
     const answer = eval(equation).toLocaleString(undefined, {
       maximumSignificantDigits: 8
     });
