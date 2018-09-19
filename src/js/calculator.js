@@ -146,7 +146,7 @@ export const Calculator = () => {
     } else if (state.operator) {
       updateState({ operator: false, current: '' });
     } else if (state.current.length) {
-      updateState({ current: '' });
+      updateState({ current: '', decimal: false });
     } else {
       clearAll();
     }
@@ -165,7 +165,7 @@ export const Calculator = () => {
   function solveEquation() {
     const equation = (state.total + state.current).replace(/,/g, '');
     const answer = eval(equation).toLocaleString(undefined, {
-      maximumSignificantDigits: 8
+      maximumSignificantDigits: 9
     });
     const fullEquation = `${equation}=`;
     updateState({
@@ -183,19 +183,23 @@ export const Calculator = () => {
   }
 
   function setInputFontSize() {
-    const inputLength = state.current.replace(/,/g, '').length;
+    const inputLength = state.current.replace(/,|\./g, '').length;
     switch (inputLength) {
       case 6:
         inputDisplay.style.fontSize = '10.3rem';
+        console.log('6');
         break;
       case 7:
         inputDisplay.style.fontSize = '8.4rem';
+        console.log('7');
         break;
       case 8:
         inputDisplay.style.fontSize = '7.4rem';
+        console.log('8');
         break;
       case 9:
         inputDisplay.style.fontSize = '6.8rem';
+        console.log('9');
         break;
       default:
         inputDisplay.style.fontSize = '11rem';
