@@ -201,12 +201,12 @@ export const Calculator = () => {
   }
 
   function updateDisplay() {
-    setInputFontSize();
+    adjustInputSize();
     inputDisplay.innerText = state.current;
     totalDisplay.innerText = state.total + state.current;
   }
 
-  function setInputFontSize() {
+  function adjustInputSize() {
     const inputLength = state.current.replace(/,|\./g, '').length;
     switch (inputLength) {
       case 6:
