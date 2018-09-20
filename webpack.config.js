@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV === 'development';
 
 const pug = {
   test: /\.pug$/,
@@ -9,11 +10,11 @@ const pug = {
 };
 
 const scss = {
-  test: /\.scss$/,
+  test: /\.(sa|sc|c)ss$/,
   use: [
-    MiniCssExtractPlugin.loader,
-    //'style-loader',
+    devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
     'css-loader',
+    //'postcss-loader',
     'sass-loader'
   ]
 };
@@ -23,7 +24,7 @@ module.exports = {
 
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: '[name].[hash].js'
   },
 
   module: {
@@ -36,7 +37,7 @@ module.exports = {
       template: 'src/pug/index.pug'
     }),
     new MiniCssExtractPlugin({
-      filename: 'style.css'
+      filename: devMode ? '[name].css' : '[name].[hash].css'
     }),
     new CleanWebpackPlugin(['dist'])
   ]
