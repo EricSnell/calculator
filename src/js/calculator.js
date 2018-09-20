@@ -33,7 +33,6 @@ export const Calculator = () => {
         input = e.target.id;
         animate(e, 'number');
         handleNumber(input);
-        console.table(state);
         break;
       case isDecimal:
         animate(e, 'number');
@@ -43,7 +42,6 @@ export const Calculator = () => {
         input = e.target.id;
         animate(e, 'operator');
         handleOperator(input);
-        console.table(state);
         break;
       case isAC:
         animate(e, 'clear');
@@ -179,9 +177,7 @@ export const Calculator = () => {
 
   function formatAnswer() {
     const answer = solveEquation();
-    console.log('ANSWER>>', answer);
     const exceedsLimit = checkLength(answer);
-    console.log('exceeds?', exceedsLimit);
     return exceedsLimit ? expoNotation(answer) : answer;
   }
 
@@ -194,16 +190,13 @@ export const Calculator = () => {
   }
 
   function expoNotation(num) {
-    console.log('expo answer>', num);
     return Number.parseFloat(num.replace(/,/g, ''))
       .toExponential(0)
       .replace(/\+/g, '');
   }
 
   function checkLength(num) {
-    console.log('checking..', num);
     const trimmedNum = num.replace(/,|\./g, '');
-    console.log('trimmed', trimmedNum);
     return trimmedNum.length > 9;
   }
 
