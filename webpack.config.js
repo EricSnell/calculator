@@ -4,6 +4,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const devMode = process.env.NODE_ENV === 'development';
+// Need to include as Webpack's default JS minifier is overridden by CSS optimizer
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const pug = {
   test: /\.pug$/,
@@ -20,6 +22,12 @@ const scss = {
   ]
 };
 
+const js = {
+  test: /\.js$/,
+  exclude: /node_modules/,
+  use: ['babel-loader']
+};
+
 module.exports = {
   entry: './src/js/app.js',
 
@@ -29,11 +37,11 @@ module.exports = {
   },
 
   module: {
-    rules: [pug, scss]
+    rules: [pug, scss, js]
   },
 
   optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin({})]
+    minimizer: [new UglifyJsPlugin(), new OptimizeCSSAssetsPlugin()]
   },
 
   plugins: [
