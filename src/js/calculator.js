@@ -42,6 +42,7 @@ export const Calculator = () => {
         input = e.target.id;
         animate(e, 'operator');
         handleOperator(input);
+        console.table(state);
         break;
       case isAC:
         animate(e, 'clear');
@@ -69,8 +70,9 @@ export const Calculator = () => {
   function handleNumber(num) {
     // Prevent user from entering more than 9 digits
     if (state.current.replace(/,|\./g, '').length >= 9) return;
+    // Checks if input is following an operator
     if (state.operator) {
-      // Append operator to total and remove from current state -- turning off flag
+      // Append operator to total and turn off operator flag
       const newTotal = state.total + state.current;
       updateState({ operator: false, current: '', total: newTotal });
     }
@@ -125,7 +127,7 @@ export const Calculator = () => {
       typeof parseFloat(state.current) === 'number' &&
       operator === '='
     ) {
-      solveEquation();
+      showAnswer();
     } else if (!state.operator) {
       const newTotal = state.total + state.current;
       updateState({
@@ -163,18 +165,44 @@ export const Calculator = () => {
     });
   }
 
-  function solveEquation() {
-    const equation = (state.total + state.current).replace(/,/g, '');
-    const answer = eval(equation).toLocaleString(undefined, {
-      maximumSignificantDigits: 9
-    });
-    const fullEquation = `${equation}=`;
+  function showAnswer() {
+    const answer = formatAnswer();
     updateState({
       decimal: false,
       current: answer,
       total: '',
       answered: true
     });
+  }
+
+  function formatAnswer() {
+    const answer = solveEquation();
+    console.log('ANSWER>>', answer);
+    const exceedsLimit = checkLength(answer);
+    console.log('exceeds?', exceedsLimit);
+    return exceedsLimit ? expoNotation(answer) : answer;
+  }
+
+  function solveEquation() {
+    const equation = (state.total + state.current).replace(/,/g, '');
+    const answer = eval(equation).toLocaleString(undefined, {
+      maximumSignificantDigits: 9
+    });
+    return answer;
+  }
+
+  function expoNotation(num) {
+    console.log('expo answer>', num);
+    return Number.parseFloat(num.replace(/,/g, ''))
+      .toExponential(0)
+      .replace(/\+/g, '');
+  }
+
+  function checkLength(num) {
+    console.log('checking..', num);
+    const trimmedNum = num.replace(/,|\./g, '');
+    console.log('trimmed', trimmedNum);
+    return trimmedNum.length > 9;
   }
 
   function updateDisplay() {
