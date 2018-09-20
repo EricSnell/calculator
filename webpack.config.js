@@ -6,6 +6,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const devMode = process.env.NODE_ENV === 'development';
 // Need to include as Webpack's default JS minifier is overridden by CSS optimizer
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const postCssPresetEnv = require('postcss-preset-env');
 
 const pug = {
   test: /\.pug$/,
@@ -16,8 +17,14 @@ const scss = {
   test: /\.(sa|sc|c)ss$/,
   use: [
     devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-    'css-loader',
-    //'postcss-loader',
+    { loader: 'css-loader', options: { importLoaders: 1 } },
+    {
+      loader: 'postcss-loader',
+      options: {
+        indent: 'postcss',
+        plugins: () => [postCssPresetEnv()]
+      }
+    },
     'sass-loader'
   ]
 };
