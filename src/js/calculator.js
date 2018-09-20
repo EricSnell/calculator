@@ -8,7 +8,7 @@ export const Calculator = () => {
 
   /* Application State */
   let state = {
-    current: '0',
+    current: '',
     decimal: false,
     operator: false,
     total: '',
@@ -33,6 +33,7 @@ export const Calculator = () => {
         input = e.target.id;
         animate(e, 'number');
         handleNumber(input);
+        console.table(state);
         break;
       case isDecimal:
         animate(e, 'number');
@@ -84,7 +85,6 @@ export const Calculator = () => {
         })
       });
     }
-    return;
   }
 
   /* Checks If Number Entered Is Valid Input */
@@ -109,12 +109,15 @@ export const Calculator = () => {
     } else {
       return false;
     }
-    return true;
   }
 
   function handleOperator(operator) {
     // If current is already operator or there is nothing to perform operation on - return false
-    if (state.operator || state.current.length === 0) {
+    if (
+      state.operator ||
+      state.current.length === 0 ||
+      (state.answered && operator === '=')
+    ) {
       return false;
     } else if (state.answered) {
       updateState({
@@ -140,7 +143,6 @@ export const Calculator = () => {
     } else {
       return false;
     }
-    return true;
   }
 
   function clearInput() {
