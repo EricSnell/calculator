@@ -96,6 +96,7 @@ export const Calculator = () => {
   /* Handles Decimal Input */
   function handleDecimal() {
     if (!state.decimal) {
+      if (state.current.replace(/,|\./g, '').length >= 9) return;
       if (state.operator) {
         const newTotal = state.total + state.current;
         updateState({ current: '', total: newTotal });
@@ -114,6 +115,7 @@ export const Calculator = () => {
     if (
       state.operator ||
       state.current.length === 0 ||
+      state.current.charAt(state.current.length - 1) === '.' ||
       (state.answered && operator === '=')
     ) {
       return false;
@@ -128,8 +130,10 @@ export const Calculator = () => {
       typeof parseFloat(state.current) === 'number' &&
       operator === '='
     ) {
+      console.log(state.current);
       showAnswer();
     } else if (!state.operator) {
+      console.log(state.current);
       const newTotal = state.total + state.current;
       updateState({
         operator: true,
