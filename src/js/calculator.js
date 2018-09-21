@@ -3,8 +3,8 @@
 export const Calculator = () => {
   /* Cache DOM */
   const [buttons] = Array.from(document.querySelectorAll('.buttons'));
-  const [inputDisplay] = document.querySelectorAll('.display__current');
-  const [totalDisplay] = document.querySelectorAll('.display__total');
+  const displayNum = document.querySelector('.display__current');
+  const displayTotal = document.querySelector('.display__total');
 
   /* Application State */
   let state = {
@@ -206,27 +206,27 @@ export const Calculator = () => {
 
   function updateDisplay() {
     adjustInputSize();
-    inputDisplay.innerText = state.current;
-    totalDisplay.innerText = state.total + state.current;
+    displayNum.innerText = state.current;
+    displayTotal.innerText = state.total + state.current;
   }
 
   function adjustInputSize() {
     const inputLength = state.current.replace(/,|\./g, '').length;
     switch (inputLength) {
       case 6:
-        inputDisplay.style.fontSize = '10.3rem';
+        displayNum.style.fontSize = '10.3rem';
         break;
       case 7:
-        inputDisplay.style.fontSize = '8.4rem';
+        displayNum.style.fontSize = '8.4rem';
         break;
       case 8:
-        inputDisplay.style.fontSize = '7.4rem';
+        displayNum.style.fontSize = '7.4rem';
         break;
       case 9:
-        inputDisplay.style.fontSize = '6.8rem';
+        displayNum.style.fontSize = '6.8rem';
         break;
       default:
-        inputDisplay.style.fontSize = '11rem';
+        displayNum.style.fontSize = '11rem';
         break;
     }
   }
