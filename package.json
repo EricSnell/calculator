@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --mode development --open --hot",
-    "build": "NODE_ENV=production webpack --mode production"
+    "build": "NODE_ENV=production webpack --mode production",
+    "pub": "git pull -rebase git checkout gh-pages git rebase master git push origin gh-pages git checkout master"
   },
   "repository": {
     "type": "git",
