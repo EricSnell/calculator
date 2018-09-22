@@ -12,35 +12,30 @@ html(lang="en")
         .display
           .display__total
           .display__current 0
-        
         .buttons
           .row
-            button(class="buttons__btn btn--clear width-50" id="AC" data-operator-js="clear-all") AC
-            button(class="buttons__btn btn--clear" id="CE" data-operator-js="clear") CE
-            button(class="buttons__btn btn--operator" id="/" data-operator-js="divide") &#xf7;
-          
+            button(class="buttons__btn btn--clear width-50" id="AC" data-action-js="clear-all") AC
+            button(class="buttons__btn btn--clear" id="CE" data-action-js="clear") CE
+            button(class="buttons__btn btn--operator" id="/" data-action-js="divide") &#xf7;
           .row
-            button(class="buttons__btn btn--number" id="7") 7
-            button(class="buttons__btn btn--number" id="8") 8
-            button(class="buttons__btn btn--number" id="9") 9
-            button(class="buttons__btn btn--operator" id="*" data-operator-js="multiply") &#xd7;
-
+            button(class="buttons__btn btn--number") 7
+            button(class="buttons__btn btn--number") 8
+            button(class="buttons__btn btn--number") 9
+            button(class="buttons__btn btn--operator" id="*" data-action-js="multiply") &#xd7;
           .row
-            button(class="buttons__btn btn--number" id="4") 4
-            button(class="buttons__btn btn--number" id="5") 5
-            button(class="buttons__btn btn--number" id="6") 6
-            button(class="buttons__btn btn--operator" id="-" data-operator-js="subtract") &#x2212;
-
+            button(class="buttons__btn btn--number") 4
+            button(class="buttons__btn btn--number") 5
+            button(class="buttons__btn btn--number") 6
+            button(class="buttons__btn btn--operator" id="-" data-action-js="subtract") &#x2212;
           .row
-            button(class="buttons__btn btn--number" id="1") 1
-            button(class="buttons__btn btn--number" id="2") 2
-            button(class="buttons__btn btn--number" id="3") 3
-            button(class="buttons__btn btn--operator" id="+" data-operator-js="add") &#x2b;
-
+            button(class="buttons__btn btn--number") 1
+            button(class="buttons__btn btn--number") 2
+            button(class="buttons__btn btn--number") 3
+            button(class="buttons__btn btn--operator" id="+" data-action-js="add") &#x2b;
           .row
-            button(class="buttons__btn btn--number width-50" id="0") 0
-            button(class="buttons__btn btn--grey" id="." data-operator-js="decimal") .
-            button(class="buttons__btn btn--operator" id="=") &#x3d;
+            button(class="buttons__btn btn--number width-50") 0
+            button(class="buttons__btn btn--grey" data-action-js="decimal") .
+            button(class="buttons__btn btn--operator" data-action-js="calculate") &#x3d;
 
       .footer(class="footer")
         | Designed and Coded by 

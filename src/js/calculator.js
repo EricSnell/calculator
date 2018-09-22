@@ -9,6 +9,7 @@ export const Calculator = () => {
   /* Application State */
   let state = {
     current: '',
+    prevInput: '',
     decimal: false,
     operator: false,
     total: '',
@@ -21,40 +22,51 @@ export const Calculator = () => {
   /* Function To Run On Button Click */
   function runInput(e) {
     e.preventDefault();
-    let input;
-    const isNumber = e.target.classList.contains('btn--number');
-    const isOperator = e.target.classList.contains('btn--operator');
-    const isDecimal = e.target.id === '.';
-    const isCE = e.target.id === 'CE';
-    const isAC = e.target.id === 'AC';
+    if (e.target.tagName !== 'BUTTON') return;
+    const {
+      textContent: input,
+      dataset: { actionJs: action }
+    } = e.target;
+    const type = getType(action);
 
-    switch (true) {
-      case isNumber:
-        input = e.target.id;
-        animate(e, 'number');
+    switch (type) {
+      case 'number':
+        animate(e, type);
         handleNumber(input);
         break;
-      case isDecimal:
+      case 'operator':
+        animate(e, type);
+        handleOperator(input);
+        break;
+      case 'decimal':
         animate(e, 'number');
         handleDecimal();
         break;
-      case isOperator:
-        input = e.target.id;
-        animate(e, 'operator');
-        handleOperator(input);
-        break;
-      case isAC:
-        animate(e, 'clear');
+      case 'clear-all':
+        animate(e, type);
         clearAll();
         break;
-      case isCE:
-        animate(e, 'clear');
+      case 'clear':
+        animate(e, type);
         clearInput();
         break;
       default:
         break;
     }
-    updateDisplay();
+    updateDisplay(state);
+  }
+
+  function getType(action) {
+    if (!action) return 'number';
+    if (
+      action === 'add' ||
+      action === 'subtract' ||
+      action === 'multiply' ||
+      action === 'divide'
+    ) {
+      return 'operator';
+    }
+    return action;
   }
 
   /* Button Click Animation */
@@ -204,31 +216,26 @@ export const Calculator = () => {
     return trimmedNum.length > 9;
   }
 
-  function updateDisplay() {
-    adjustInputSize();
-    displayNum.innerText = state.current;
-    displayTotal.innerText = state.total + state.current;
+  function updateDisplay({ current, total }) {
+    resizeDisplayFont(current);
+    displayNum.innerText = current;
+    displayTotal.innerText = total + current;
   }
 
-  function adjustInputSize() {
-    const inputLength = state.current.replace(/,|\./g, '').length;
-    switch (inputLength) {
-      case 6:
-        displayNum.style.fontSize = '10.3rem';
-        break;
-      case 7:
-        displayNum.style.fontSize = '8.4rem';
-        break;
-      case 8:
-        displayNum.style.fontSize = '7.4rem';
-        break;
-      case 9:
-        displayNum.style.fontSize = '6.8rem';
-        break;
-      default:
-        displayNum.style.fontSize = '11rem';
-        break;
-    }
+  function resizeDisplayFont(num) {
+    const currentLength = num.replace(/,|\./g, '').length;
+    displayNum.style.fontSize = determineSize(currentLength);
+  }
+
+  function determineSize(num) {
+    let sizes = {
+      '6': '10.3rem',
+      '7': '8.4rem',
+      '8': '7.4rem',
+      '9': '6.8rem'
+    };
+    let defaultSize = '11rem';
+    return sizes[num] || defaultSize;
   }
 
   function updateState(propsToUpdate = {}) {
