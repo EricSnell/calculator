@@ -28,11 +28,29 @@ export const Calculator = () => {
       dataset: { actionJs: action }
     } = e.target;
     const type = getType(action);
+    //function handleInput(type);
+
+    function handleInput(type) {}
 
     switch (type) {
       case 'number':
         animate(e, type);
-        handleNumber(input);
+        // Prevent user from entering more than 9 digits
+        if (maxLength(state.current)) return;
+        // Checks if input is following an operator
+        if (state.operator) {
+          // Append operator to total and turn off operator flag
+          const newTotal = state.total + state.current;
+          updateState({ operator: false, current: '', total: newTotal });
+        }
+        if (validNumber(num)) {
+          const newCurrent = state.current.replace(/,/g, '') + num;
+          updateState({
+            current: Number(newCurrent).toLocaleString(undefined, {
+              maximumSignificantDigits: 9
+            })
+          });
+        }
         break;
       case 'operator':
         animate(e, type);
@@ -43,7 +61,7 @@ export const Calculator = () => {
         handleDecimal();
         break;
       case 'clear-all':
-        animate(e, type);
+        animate(e, 'clear');
         clearAll();
         break;
       case 'clear':
@@ -69,42 +87,6 @@ export const Calculator = () => {
     return action;
   }
 
-  /* Button Click Animation */
-  function animate(e, type) {
-    const allButtons = Array.from(document.querySelectorAll('.buttons__btn'));
-    allButtons.forEach(btn => btn.classList.remove(`glow-fade-${type}`));
-    void e.target.offsetWidth; // hack to allow animation to run consecutively on same element
-    e.target.classList.add(`glow-fade-${type}`);
-  }
-
-  /* If Number Button Pressed */
-  function handleNumber(num) {
-    // Prevent user from entering more than 9 digits
-    if (maxLength(state.current)) return;
-    // Checks if input is following an operator
-    if (state.operator) {
-      // Append operator to total and turn off operator flag
-      const newTotal = state.total + state.current;
-      updateState({ operator: false, current: '', total: newTotal });
-    }
-    if (validNumber(num)) {
-      const newCurrent = state.current.replace(/,/g, '') + num;
-      updateState({
-        current: Number(newCurrent).toLocaleString(undefined, {
-          maximumSignificantDigits: 9
-        })
-      });
-    }
-  }
-
-  /* Checks If Number Entered Is Valid Input */
-  function validNumber(num) {
-    const currentIsNumber =
-      typeof parseFloat(state.current) === 'number' && state.current.length > 0;
-    const ifFirstNotZero = state.current.length === 0 && parseInt(num, 10) > 0;
-    return currentIsNumber || ifFirstNotZero;
-  }
-
   /* Handles Decimal Input */
   function handleDecimal() {
     if (!state.decimal) {
@@ -123,6 +105,13 @@ export const Calculator = () => {
   }
 
   function handleOperator(operator) {
+    const operators = {
+      add: '+',
+      subtract: '-',
+      multiply: '*',
+      divide: '/'
+    };
+
     // If current is already operator or there is nothing to perform operation on - return false
     if (
       state.operator ||
@@ -207,7 +196,7 @@ export const Calculator = () => {
   }
 
   /**
-   * UPDATE CALCULATORS DISPLAY
+   * UPDATE DISPLAY
    */
   function updateDisplay({ current, total }) {
     updateFontSize(current);
@@ -231,6 +220,13 @@ export const Calculator = () => {
     return sizes[num] || defaultSize;
   }
 
+  function animate(e, type) {
+    const allButtons = Array.from(document.querySelectorAll('.buttons__btn'));
+    allButtons.forEach(btn => btn.classList.remove(`glow-fade-${type}`));
+    void e.target.offsetWidth; // hack to allow animation to run consecutively on same element
+    e.target.classList.add(`glow-fade-${type}`);
+  }
+
   /**
    * HELPER FUNCTIONS
    */
@@ -244,6 +240,14 @@ export const Calculator = () => {
     const limit = state.current === '=' ? 9 : 8;
     const trimmedNum = num.replace(/,|\./g, '');
     return trimmedNum.length > limit;
+  }
+
+  function validNumber(num) {
+    return (
+      (typeof parseFloat(state.current) === 'number' &&
+        state.current.length > 0) ||
+      parseInt(num, 10) > 0
+    );
   }
 
   /**

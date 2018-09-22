@@ -128,7 +128,7 @@ body {
     height: 85%;
     font-size: 4rem;
     color: var(--color-text);
-    //text-align: center;
+    // text-align: center;
     // display: flex;
     // justify-content: center;
     // align-items: center;
@@ -139,6 +139,7 @@ body {
     backface-visibility: hidden;
     outline: none;
     transition: all 0.3s;
+    position: relative;
 
     &:not(:last-child) {
       margin-right: var(--btn-margin);
@@ -147,10 +148,32 @@ body {
     &:hover {
       opacity: 0.9;
     }
+
+    &::after {
+      content: '';
+      display: block;
+      background: white;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      opacity: 0;
+    }
+
+    &:active {
+      &::after {
+        opacity: 0.8;
+      }
+    }
   }
 }
 
 .btn {
+  position: relative;
+
   &--number,
   &--grey {
     background: var(--color-numbers);
@@ -208,6 +231,14 @@ body {
 }
 
 // Animations
+@keyframes key-press {
+  0% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 @keyframes glow-fade-number {
   0% {
     background-color: #d0d0d0;
@@ -218,23 +249,23 @@ body {
   }
 }
 
-@keyframes glow-fade-operator {
-  0% {
-    background-color: var(--color-text);
-    color: var(--color-operator);
-  }
+// @keyframes glow-fade-operator {
+//   0% {
+//     background-color: var(--color-text);
+//     color: var(--color-operator);
+//   }
 
-  100% {
-    background-color: var(--color-operator);
-  }
-}
+//   100% {
+//     background-color: var(--color-operator);
+//   }
+// }
 
-@keyframes glow-fade-clear {
-  0% {
-    background-color: #f0f0f0;
-  }
+// @keyframes glow-fade-clear {
+//   0% {
+//     background-color: #f0f0f0;
+//   }
 
-  100% {
-    background-color: var(--color-clear);
-  }
-}
+//   100% {
+//     background-color: var(--color-clear);
+//   }
+// }
