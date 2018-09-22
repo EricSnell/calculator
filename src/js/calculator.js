@@ -1,3 +1,5 @@
+import { format } from 'path';
+
 ('use strict');
 
 export const Calculator = () => {
@@ -9,7 +11,6 @@ export const Calculator = () => {
   /* Application State */
   let state = {
     current: '',
-    prevInput: '',
     decimal: false,
     operator: false,
     total: '',
@@ -17,11 +18,12 @@ export const Calculator = () => {
   };
 
   /* Event Listeners */
-  buttons.addEventListener('click', runInput);
+  buttons.addEventListener('click', run);
 
   /* Function To Run On Button Click */
-  function runInput(e) {
+  function run(e) {
     e.preventDefault();
+    console.clear();
     if (e.target.tagName !== 'BUTTON') return;
     const {
       textContent: input,
@@ -35,16 +37,13 @@ export const Calculator = () => {
     switch (type) {
       case 'number':
         animate(e, type);
-        // Prevent user from entering more than 9 digits
-        if (maxLength(state.current)) return;
-        // Checks if input is following an operator
         if (state.operator) {
-          // Append operator to total and turn off operator flag
           const newTotal = state.total + state.current;
           updateState({ operator: false, current: '', total: newTotal });
         }
         if (validNumber(input)) {
-          const newCurrent = state.current.replace(/,/g, '') + input;
+          if (maxLength(state.current)) return;
+          const newCurrent = (state.current + input).replace(/,/g, '');
           updateState({
             current: Number(newCurrent).toLocaleString(undefined, {
               maximumSignificantDigits: 9
@@ -61,30 +60,18 @@ export const Calculator = () => {
           '÷': '/'
         };
         const operator = operatorMap[input];
-
-        // If current is already operator or there is nothing to perform operation on - return false
-        if (
-          state.operator ||
-          state.current.length === 0 ||
-          state.current.charAt(state.current.length - 1) === '.' ||
-          (state.calculated && operator === '=')
-        ) {
-          return false;
-        } else if (state.calculated) {
+        const followsDecimal =
+          state.current.charAt(state.current.length - 1) === '.';
+        if (state.operator) updateState({ current: operator });
+        else if (!state.current || followsDecimal) return false;
+        else if (state.calculated) {
           updateState({
             current: operator,
             operator: true,
             total: state.current,
             calculated: false
           });
-        } else if (
-          typeof parseFloat(state.current) === 'number' &&
-          operator === '='
-        ) {
-          console.log(state.current);
-          calculate(state);
         } else if (!state.operator) {
-          console.log(state.current);
           const newTotal = state.total + state.current;
           updateState({
             operator: true,
@@ -93,9 +80,11 @@ export const Calculator = () => {
             total: newTotal,
             calculated: false
           });
-        } else {
-          return false;
         }
+        break;
+      case 'calculate':
+        console.log(state);
+        if (!isNaN(state.current) && state.current) calculate(state);
         break;
       case 'decimal':
         animate(e, 'number');
