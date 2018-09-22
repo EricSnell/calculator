@@ -80,7 +80,7 @@ export const Calculator = () => {
   /* If Number Button Pressed */
   function handleNumber(num) {
     // Prevent user from entering more than 9 digits
-    if (state.current.replace(/,|\./g, '').length >= 9) return;
+    if (maxLength(state.current)) return;
     // Checks if input is following an operator
     if (state.operator) {
       // Append operator to total and turn off operator flag
@@ -193,7 +193,7 @@ export const Calculator = () => {
 
   function formatAnswer() {
     const answer = solveEquation();
-    const exceedsLimit = checkLength(answer);
+    const exceedsLimit = maxLength(answer);
     return exceedsLimit ? expoNotation(answer) : answer;
   }
 
@@ -211,9 +211,10 @@ export const Calculator = () => {
       .replace(/\+/g, '');
   }
 
-  function checkLength(num) {
+  function maxLength(num) {
+    const limit = state.current === '=' ? 9 : 8;
     const trimmedNum = num.replace(/,|\./g, '');
-    return trimmedNum.length > 9;
+    return trimmedNum.length > limit;
   }
 
   function updateDisplay({ current, total }) {
