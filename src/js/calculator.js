@@ -43,8 +43,8 @@ export const Calculator = () => {
           const newTotal = state.total + state.current;
           updateState({ operator: false, current: '', total: newTotal });
         }
-        if (validNumber(num)) {
-          const newCurrent = state.current.replace(/,/g, '') + num;
+        if (validNumber(input)) {
+          const newCurrent = state.current.replace(/,/g, '') + input;
           updateState({
             current: Number(newCurrent).toLocaleString(undefined, {
               maximumSignificantDigits: 9
@@ -54,11 +54,64 @@ export const Calculator = () => {
         break;
       case 'operator':
         animate(e, type);
-        handleOperator(input);
+        const operatorMap = {
+          '+': '+',
+          '−': '-',
+          '×': '*',
+          '÷': '/'
+        };
+        const operator = operatorMap[input];
+
+        // If current is already operator or there is nothing to perform operation on - return false
+        if (
+          state.operator ||
+          state.current.length === 0 ||
+          state.current.charAt(state.current.length - 1) === '.' ||
+          (state.calculated && operator === '=')
+        ) {
+          return false;
+        } else if (state.calculated) {
+          updateState({
+            current: operator,
+            operator: true,
+            total: state.current,
+            calculated: false
+          });
+        } else if (
+          typeof parseFloat(state.current) === 'number' &&
+          operator === '='
+        ) {
+          console.log(state.current);
+          calculate(state);
+        } else if (!state.operator) {
+          console.log(state.current);
+          const newTotal = state.total + state.current;
+          updateState({
+            operator: true,
+            decimal: false,
+            current: operator,
+            total: newTotal,
+            calculated: false
+          });
+        } else {
+          return false;
+        }
         break;
       case 'decimal':
         animate(e, 'number');
-        handleDecimal();
+        if (!state.decimal) {
+          if (state.current.replace(/,|\./g, '').length >= 9) return;
+          if (state.operator) {
+            const newTotal = state.total + state.current;
+            updateState({ current: '', total: newTotal });
+          }
+          const deci = state.current.length ? '.' : '0.';
+          const newCurrent = state.current + deci;
+          updateState({ decimal: true, operator: false, current: newCurrent });
+          // if current already contains decimal, return false
+        } else {
+          return false;
+        }
         break;
       case 'clear-all':
         animate(e, 'clear');
@@ -85,67 +138,6 @@ export const Calculator = () => {
       return 'operator';
     }
     return action;
-  }
-
-  /* Handles Decimal Input */
-  function handleDecimal() {
-    if (!state.decimal) {
-      if (state.current.replace(/,|\./g, '').length >= 9) return;
-      if (state.operator) {
-        const newTotal = state.total + state.current;
-        updateState({ current: '', total: newTotal });
-      }
-      const deci = state.current.length ? '.' : '0.';
-      const newCurrent = state.current + deci;
-      updateState({ decimal: true, operator: false, current: newCurrent });
-      // if current already contains decimal, return false
-    } else {
-      return false;
-    }
-  }
-
-  function handleOperator(operator) {
-    const operators = {
-      add: '+',
-      subtract: '-',
-      multiply: '*',
-      divide: '/'
-    };
-
-    // If current is already operator or there is nothing to perform operation on - return false
-    if (
-      state.operator ||
-      state.current.length === 0 ||
-      state.current.charAt(state.current.length - 1) === '.' ||
-      (state.calculated && operator === '=')
-    ) {
-      return false;
-    } else if (state.calculated) {
-      updateState({
-        current: operator,
-        operator: true,
-        total: state.current,
-        calculated: false
-      });
-    } else if (
-      typeof parseFloat(state.current) === 'number' &&
-      operator === '='
-    ) {
-      console.log(state.current);
-      calculate(state);
-    } else if (!state.operator) {
-      console.log(state.current);
-      const newTotal = state.total + state.current;
-      updateState({
-        operator: true,
-        decimal: false,
-        current: operator,
-        total: newTotal,
-        calculated: false
-      });
-    } else {
-      return false;
-    }
   }
 
   /**
