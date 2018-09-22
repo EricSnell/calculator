@@ -13,7 +13,7 @@ export const Calculator = () => {
     decimal: false,
     operator: false,
     total: '',
-    answered: false
+    calculated: false
   };
 
   /* Event Listeners */
@@ -128,22 +128,22 @@ export const Calculator = () => {
       state.operator ||
       state.current.length === 0 ||
       state.current.charAt(state.current.length - 1) === '.' ||
-      (state.answered && operator === '=')
+      (state.calculated && operator === '=')
     ) {
       return false;
-    } else if (state.answered) {
+    } else if (state.calculated) {
       updateState({
         current: operator,
         operator: true,
         total: state.current,
-        answered: false
+        calculated: false
       });
     } else if (
       typeof parseFloat(state.current) === 'number' &&
       operator === '='
     ) {
       console.log(state.current);
-      calculate();
+      calculate(state);
     } else if (!state.operator) {
       console.log(state.current);
       const newTotal = state.total + state.current;
@@ -152,17 +152,17 @@ export const Calculator = () => {
         decimal: false,
         current: operator,
         total: newTotal,
-        answered: false
+        calculated: false
       });
     } else {
       return false;
     }
   }
 
-  function clearInput() {
-    if (state.answered) {
+  function clearInput({ calculated, operator }) {
+    if (calculated) {
       clearAll();
-    } else if (state.operator) {
+    } else if (operator) {
       updateState({ operator: false, current: '' });
     } else if (state.current.length) {
       updateState({ current: '', decimal: false });
@@ -177,20 +177,20 @@ export const Calculator = () => {
       decimal: false,
       operator: false,
       total: '',
-      answered: false
+      calculated: false
     });
   }
 
   /**
    * HANDLE CALCULATION
    */
-  function calculate() {
+  function calculate(state) {
     const answer = formatAnswer(state);
     updateState({
       decimal: false,
       current: answer,
       total: '',
-      answered: true
+      calculated: true
     });
   }
 
@@ -201,18 +201,6 @@ export const Calculator = () => {
     });
     const exceedsLimit = maxLength(answer);
     return exceedsLimit ? expoNotation(answer) : answer;
-  }
-
-  function expoNotation(num) {
-    return Number.parseFloat(num.replace(/,/g, ''))
-      .toExponential(0)
-      .replace(/\+/g, '');
-  }
-
-  function maxLength(num) {
-    const limit = state.current === '=' ? 9 : 8;
-    const trimmedNum = num.replace(/,|\./g, '');
-    return trimmedNum.length > limit;
   }
 
   /**
@@ -238,6 +226,21 @@ export const Calculator = () => {
     };
     let defaultSize = '11rem';
     return sizes[num] || defaultSize;
+  }
+
+  /**
+   * HELPER FUNCTIONS
+   */
+  function expoNotation(num) {
+    return Number.parseFloat(num.replace(/,/g, ''))
+      .toExponential(0)
+      .replace(/\+/g, '');
+  }
+
+  function maxLength(num) {
+    const limit = state.current === '=' ? 9 : 8;
+    const trimmedNum = num.replace(/,|\./g, '');
+    return trimmedNum.length > limit;
   }
 
   /**
