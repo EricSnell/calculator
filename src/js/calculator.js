@@ -48,7 +48,7 @@ export const Calculator = () => {
         break;
       case 'clear':
         animate(e, type);
-        clearInput();
+        clearInput(state);
         break;
       default:
         break;
@@ -159,12 +159,15 @@ export const Calculator = () => {
     }
   }
 
-  function clearInput({ calculated, operator }) {
+  /**
+   * HANDLE CLEAR/CLEAR-ALL OPERATIONS
+   */
+  function clearInput({ calculated, operator, current }) {
     if (calculated) {
       clearAll();
     } else if (operator) {
       updateState({ operator: false, current: '' });
-    } else if (state.current.length) {
+    } else if (current.length) {
       updateState({ current: '', decimal: false });
     } else {
       clearAll();
