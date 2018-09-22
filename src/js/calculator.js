@@ -143,7 +143,7 @@ export const Calculator = () => {
       operator === '='
     ) {
       console.log(state.current);
-      showAnswer();
+      calculate();
     } else if (!state.operator) {
       console.log(state.current);
       const newTotal = state.total + state.current;
@@ -181,8 +181,11 @@ export const Calculator = () => {
     });
   }
 
-  function showAnswer() {
-    const answer = formatAnswer();
+  /**
+   * HANDLE CALCULATION
+   */
+  function calculate() {
+    const answer = formatAnswer(state);
     updateState({
       decimal: false,
       current: answer,
@@ -191,18 +194,13 @@ export const Calculator = () => {
     });
   }
 
-  function formatAnswer() {
-    const answer = solveEquation();
-    const exceedsLimit = maxLength(answer);
-    return exceedsLimit ? expoNotation(answer) : answer;
-  }
-
-  function solveEquation() {
-    const equation = (state.total + state.current).replace(/,/g, '');
+  function formatAnswer({ current, total }) {
+    const equation = (total + current).replace(/,/g, '');
     const answer = eval(equation).toLocaleString(undefined, {
       maximumSignificantDigits: 9
     });
-    return answer;
+    const exceedsLimit = maxLength(answer);
+    return exceedsLimit ? expoNotation(answer) : answer;
   }
 
   function expoNotation(num) {
@@ -217,17 +215,20 @@ export const Calculator = () => {
     return trimmedNum.length > limit;
   }
 
+  /**
+   * UPDATE CALCULATORS DISPLAY
+   */
   function updateDisplay({ current, total }) {
-    resizeDisplayFont(current);
+    updateFontSize(current);
     displayNum.innerText = current;
     displayTotal.innerText = total + current;
   }
 
-  function resizeDisplayFont(num) {
+  function updateFontSize(num) {
     const currentLength = num.replace(/,|\./g, '').length;
     displayNum.style.fontSize = determineSize(currentLength);
   }
-
+  // feels hacky -- temporary solution
   function determineSize(num) {
     let sizes = {
       '6': '10.3rem',
@@ -239,7 +240,10 @@ export const Calculator = () => {
     return sizes[num] || defaultSize;
   }
 
-  function updateState(propsToUpdate = {}) {
-    state = Object.assign({}, state, propsToUpdate);
+  /**
+   * UPDATES STATE OF APPLICATION
+   */
+  function updateState(props = {}) {
+    state = Object.assign({}, state, props);
   }
 };
