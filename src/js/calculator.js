@@ -83,7 +83,6 @@ export const Calculator = () => {
         }
         break;
       case 'calculate':
-        console.log(state);
         if (!isNaN(state.current) && state.current) calculate(state);
         break;
       case 'decimal':
@@ -97,7 +96,6 @@ export const Calculator = () => {
           const deci = state.current.length ? '.' : '0.';
           const newCurrent = state.current + deci;
           updateState({ decimal: true, operator: false, current: newCurrent });
-          // if current already contains decimal, return false
         } else {
           return false;
         }
@@ -133,15 +131,10 @@ export const Calculator = () => {
    * HANDLE CLEAR/CLEAR-ALL OPERATIONS
    */
   function clearInput({ calculated, operator, current }) {
-    if (calculated) {
-      clearAll();
-    } else if (operator) {
-      updateState({ operator: false, current: '' });
-    } else if (current.length) {
-      updateState({ current: '', decimal: false });
-    } else {
-      clearAll();
-    }
+    if (calculated) clearAll();
+    else if (operator) updateState({ operator: false, current: '' });
+    else if (current.length) updateState({ current: '', decimal: false });
+    else clearAll();
   }
 
   function clearAll() {
@@ -181,8 +174,8 @@ export const Calculator = () => {
    */
   function updateDisplay({ current, total }) {
     updateFontSize(current);
-    displayNum.innerText = current;
-    displayTotal.innerText = total + current;
+    displayNum.innerText = formatText(current);
+    displayTotal.innerText = formatText(total) + formatText(current);
   }
 
   function updateFontSize(num) {
