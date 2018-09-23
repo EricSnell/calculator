@@ -39,7 +39,7 @@ export const Calculator = () => {
           updateState({ operator: false, current: '', total: newTotal });
         }
         if (validNumber(input)) {
-          if (maxLength(state.current)) return;
+          if (maxLength(state.current, 8)) return;
           const newCurrent = state.current + input;
           updateState({
             current: newCurrent
@@ -156,9 +156,9 @@ export const Calculator = () => {
   }
 
   function formatAnswer({ current, total }) {
-    const equation = total + current;
+    const equation = total.replace(/,/g, '') + current;
     const answer = eval(equation).toString();
-    const exceedsLimit = maxLength(answer);
+    const exceedsLimit = maxLength(answer, 9);
     return exceedsLimit ? expoNotation(answer) : answer;
   }
 
@@ -166,7 +166,7 @@ export const Calculator = () => {
    * UPDATE DISPLAY
    */
   function updateDisplay({ current, total }) {
-    console.log('totes:', total);
+    console.table(state);
     updateFontSize(current);
     const newCurrent = current.length > 3 ? addComma(current) : current;
     displayNum.innerText = newCurrent;
@@ -204,13 +204,12 @@ export const Calculator = () => {
    * HELPER FUNCTIONS
    */
   function expoNotation(num) {
-    return Number.parseFloat(num.replace(/,/g, ''))
+    return parseFloat(num.replace(/,/g, ''))
       .toExponential(0)
       .replace(/\+/g, '');
   }
 
-  function maxLength(num) {
-    const limit = state.current === '=' ? 9 : 8;
+  function maxLength(num, limit) {
     return num.length > limit;
   }
 
