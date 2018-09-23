@@ -194,10 +194,11 @@ export const Calculator = () => {
   }
 
   function animate(e, type) {
+    const key = e.target;
     const allButtons = Array.from(document.querySelectorAll('.buttons__btn'));
-    allButtons.forEach(btn => btn.classList.remove(`glow-fade-${type}`));
-    void e.target.offsetWidth; // hack to allow animation to run consecutively on same element
-    e.target.classList.add(`glow-fade-${type}`);
+    allButtons.forEach(btn => btn.classList.remove('active'));
+    void key.offsetWidth; // hack to allow animation to run consecutively on same element
+    key.classList.add('active');
   }
 
   /**

@@ -109,7 +109,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  //font-size: 3.5rem;
 
   @media only screen and (max-width: 460px) {
     flex: 0 75%;
@@ -128,10 +127,6 @@ body {
     height: 85%;
     font-size: 4rem;
     color: var(--color-text);
-    // text-align: center;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
     border-radius: 100%;
     border: none;
     cursor: pointer;
@@ -162,12 +157,6 @@ body {
       border-radius: inherit;
       opacity: 0;
     }
-
-    &:active {
-      &::after {
-        opacity: 0.8;
-      }
-    }
   }
 }
 
@@ -181,11 +170,23 @@ body {
 
   &--operator {
     background: var(--color-operator);
+
+    &.active {
+      background: var(--color-text);
+      color: var(--color-operator);
+    }
   }
 
   &--clear {
     background: var(--color-clear);
     color: var(--color-background);
+  }
+
+  &--number,
+  &--clear {
+    &.active {
+      animation: key-press-number 0.5s ease-in;
+    }
   }
 }
 
@@ -218,28 +219,8 @@ body {
   border-radius: 10rem;
 }
 
-.glow-fade-number {
-  animation: glow-fade-number 0.5s ease-in;
-}
-
-.glow-fade-operator {
-  animation: glow-fade-operator 0.5s ease-in;
-}
-
-.glow-fade-clear {
-  animation: glow-fade-clear 0.5s ease-in;
-}
-
 // Animations
-@keyframes key-press {
-  0% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes glow-fade-number {
+@keyframes key-press-number {
   0% {
     background-color: #d0d0d0;
   }
@@ -248,24 +229,3 @@ body {
     background-color: var(--color-numbers);
   }
 }
-
-// @keyframes glow-fade-operator {
-//   0% {
-//     background-color: var(--color-text);
-//     color: var(--color-operator);
-//   }
-
-//   100% {
-//     background-color: var(--color-operator);
-//   }
-// }
-
-// @keyframes glow-fade-clear {
-//   0% {
-//     background-color: #f0f0f0;
-//   }
-
-//   100% {
-//     background-color: var(--color-clear);
-//   }
-// }
