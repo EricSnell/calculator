@@ -30,9 +30,6 @@ export const Calculator = () => {
       dataset: { actionJs: action }
     } = e.target;
     const type = getType(action);
-    //function handleInput(type);
-
-    function handleInput(type) {}
 
     switch (type) {
       case 'number':
@@ -43,11 +40,9 @@ export const Calculator = () => {
         }
         if (validNumber(input)) {
           if (maxLength(state.current)) return;
-          const newCurrent = (state.current + input).replace(/,/g, '');
+          const newCurrent = state.current + input;
           updateState({
-            current: Number(newCurrent).toLocaleString(undefined, {
-              maximumSignificantDigits: 9
-            })
+            current: newCurrent
           });
         }
         break;
@@ -68,11 +63,11 @@ export const Calculator = () => {
           updateState({
             current: operator,
             operator: true,
-            total: state.current,
+            total: addComma(state.current),
             calculated: false
           });
         } else if (!state.operator) {
-          const newTotal = state.total + state.current;
+          const newTotal = state.total + addComma(state.current);
           updateState({
             operator: true,
             decimal: false,
@@ -88,7 +83,7 @@ export const Calculator = () => {
       case 'decimal':
         animate(e, 'number');
         if (!state.decimal) {
-          if (state.current.replace(/,|\./g, '').length >= 9) return;
+          if (state.current.length >= 9) return;
           if (state.operator) {
             const newTotal = state.total + state.current;
             updateState({ current: '', total: newTotal });
@@ -161,10 +156,8 @@ export const Calculator = () => {
   }
 
   function formatAnswer({ current, total }) {
-    const equation = (total + current).replace(/,/g, '');
-    const answer = eval(equation).toLocaleString(undefined, {
-      maximumSignificantDigits: 9
-    });
+    const equation = total + current;
+    const answer = eval(equation).toString();
     const exceedsLimit = maxLength(answer);
     return exceedsLimit ? expoNotation(answer) : answer;
   }
@@ -173,9 +166,15 @@ export const Calculator = () => {
    * UPDATE DISPLAY
    */
   function updateDisplay({ current, total }) {
+    console.log('totes:', total);
     updateFontSize(current);
-    displayNum.innerText = formatText(current);
-    displayTotal.innerText = formatText(total) + formatText(current);
+    const newCurrent = current.length > 3 ? addComma(current) : current;
+    displayNum.innerText = newCurrent;
+    displayTotal.innerText = total + newCurrent;
+  }
+
+  function addComma(num) {
+    return Number(num).toLocaleString();
   }
 
   function updateFontSize(num) {
@@ -212,8 +211,7 @@ export const Calculator = () => {
 
   function maxLength(num) {
     const limit = state.current === '=' ? 9 : 8;
-    const trimmedNum = num.replace(/,|\./g, '');
-    return trimmedNum.length > limit;
+    return num.length > limit;
   }
 
   function validNumber(num) {
