@@ -166,13 +166,17 @@ export const Calculator = () => {
     console.table(state);
     updateFontSize(current);
     const newCurrent = current.length > 3 ? addComma(current) : current;
+    console.log('newcurrent:', newCurrent);
     displayNum.innerText = newCurrent;
     displayTotal.innerText = total + newCurrent;
   }
 
   function addComma(num) {
-    return Number(num).toLocaleString();
+    return Number(num).toLocaleString(undefined, {
+      maximumSignificantDigits: 9
+    });
   }
+  z;
 
   function updateFontSize(num) {
     const currentLength = num.replace(/,|\./g, '').length;
@@ -208,7 +212,7 @@ export const Calculator = () => {
   }
 
   function maxLength(num, limit) {
-    return num.length > limit;
+    return num.replace(/\./g, '').length > limit;
   }
 
   function validNumber(num) {
