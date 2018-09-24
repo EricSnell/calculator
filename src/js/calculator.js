@@ -33,7 +33,6 @@ export const Calculator = () => {
 
     switch (type) {
       case 'number':
-        animate(e, type);
         if (state.operator) {
           const newTotal = state.total + state.current;
           updateState({ operator: false, current: '', total: newTotal });
@@ -47,7 +46,6 @@ export const Calculator = () => {
         }
         break;
       case 'operator':
-        animate(e, type);
         const operatorMap = {
           '+': '+',
           '−': '-',
@@ -79,9 +77,9 @@ export const Calculator = () => {
         break;
       case 'calculate':
         if (!isNaN(state.current) && state.current) calculate(state);
+        else return;
         break;
       case 'decimal':
-        animate(e, 'number');
         if (!state.decimal) {
           if (state.current.length >= 9) return;
           if (state.operator) {
@@ -96,16 +94,15 @@ export const Calculator = () => {
         }
         break;
       case 'clear-all':
-        animate(e, 'clear');
         clearAll();
         break;
       case 'clear':
-        animate(e, type);
         clearInput(state);
         break;
       default:
         break;
     }
+    animate(e, type);
     updateDisplay(state);
   }
 
