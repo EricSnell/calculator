@@ -143,7 +143,11 @@ export const Calculator = () => {
 
   function formatAnswer({ current, total }) {
     const equation = total.replace(/,/g, '') + current;
-    const answer = eval(equation).toString();
+    const answer = eval(equation).toLocaleString(undefined, {
+      maximumSignificantDigits: 9
+    });
+    console.log('equation:', equation);
+    console.log('answer:', answer);
     const exceedsLimit = maxLength(answer, 9);
     console.log('answer:', answer);
     return exceedsLimit ? expoNotation(answer) : answer;
@@ -204,6 +208,7 @@ export const Calculator = () => {
    * HELPER FUNCTIONS
    */
   function expoNotation(num) {
+    console.log('in expo:', num);
     return parseFloat(num.replace(/,/g, ''))
       .toExponential(0)
       .replace(/\+/g, '');
