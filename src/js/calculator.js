@@ -133,6 +133,7 @@ export const Calculator = () => {
    */
   function calculate(state) {
     const answer = formatAnswer(state);
+    console.log('returned answer:', answer);
     updateState({
       decimal: false,
       current: answer,
@@ -143,9 +144,11 @@ export const Calculator = () => {
 
   function formatAnswer({ current, total }) {
     const equation = total.replace(/,/g, '') + current;
-    const answer = eval(equation).toLocaleString(undefined, {
-      maximumSignificantDigits: 9
-    });
+    const answer = eval(equation)
+      .toLocaleString(undefined, {
+        maximumSignificantDigits: 9
+      })
+      .replace(/,/g, '');
     console.log('equation:', equation);
     console.log('answer:', answer);
     const exceedsLimit = maxLength(answer, 9);
@@ -160,7 +163,6 @@ export const Calculator = () => {
     console.table(state);
     updateFontSize(current);
     const newCurrent = addComma(current);
-    console.log('updating display with:', newCurrent);
     displayNum.innerText = newCurrent;
     displayTotal.innerText = total + newCurrent;
   }
@@ -215,6 +217,7 @@ export const Calculator = () => {
   }
 
   function maxLength(num, limit) {
+    console.log('in maxlength:', num);
     return num.replace(/\./g, '').length > limit;
   }
 
