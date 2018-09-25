@@ -31,77 +31,66 @@ export const Calculator = () => {
     } = e.target;
     const type = getType(action);
 
-    switch (type) {
-      case 'number':
+    if (type === 'number') {
+      if (state.operator) {
+        const newTotal = state.total + state.current;
+        updateState({ operator: false, current: '', total: newTotal });
+      }
+      if (validNumber(input)) {
+        if (maxLength(state.current, 8)) return;
+        const newCurrent = state.current + input;
+        updateState({
+          current: newCurrent
+        });
+      }
+    } else if (type === 'operator') {
+      const operatorMap = {
+        '+': '+',
+        '−': '-',
+        '×': '*',
+        '÷': '/'
+      };
+      const operator = operatorMap[input];
+      const followsDecimal =
+        state.current.charAt(state.current.length - 1) === '.';
+      if (state.operator) updateState({ current: operator });
+      else if (!state.current || followsDecimal) return false;
+      else if (state.calculated) {
+        updateState({
+          current: operator,
+          operator: true,
+          total: addComma(state.current),
+          calculated: false
+        });
+      } else if (!state.operator) {
+        const newTotal = state.total + addComma(state.current);
+        updateState({
+          operator: true,
+          decimal: false,
+          current: operator,
+          total: newTotal,
+          calculated: false
+        });
+      }
+    } else if (type === 'calculate') {
+      if (!isNaN(state.current) && state.current) calculate(state);
+      else return;
+    } else if (type === 'decimal') {
+      if (!state.decimal) {
+        if (state.current.length >= 9) return;
         if (state.operator) {
           const newTotal = state.total + state.current;
-          updateState({ operator: false, current: '', total: newTotal });
+          updateState({ current: '', total: newTotal });
         }
-        if (validNumber(input)) {
-          if (maxLength(state.current, 8)) return;
-          const newCurrent = state.current + input;
-          updateState({
-            current: newCurrent
-          });
-        }
-        break;
-      case 'operator':
-        const operatorMap = {
-          '+': '+',
-          '−': '-',
-          '×': '*',
-          '÷': '/'
-        };
-        const operator = operatorMap[input];
-        const followsDecimal =
-          state.current.charAt(state.current.length - 1) === '.';
-        if (state.operator) updateState({ current: operator });
-        else if (!state.current || followsDecimal) return false;
-        else if (state.calculated) {
-          updateState({
-            current: operator,
-            operator: true,
-            total: addComma(state.current),
-            calculated: false
-          });
-        } else if (!state.operator) {
-          const newTotal = state.total + addComma(state.current);
-          updateState({
-            operator: true,
-            decimal: false,
-            current: operator,
-            total: newTotal,
-            calculated: false
-          });
-        }
-        break;
-      case 'calculate':
-        if (!isNaN(state.current) && state.current) calculate(state);
-        else return;
-        break;
-      case 'decimal':
-        if (!state.decimal) {
-          if (state.current.length >= 9) return;
-          if (state.operator) {
-            const newTotal = state.total + state.current;
-            updateState({ current: '', total: newTotal });
-          }
-          const deci = state.current.length ? '.' : '0.';
-          const newCurrent = state.current + deci;
-          updateState({ decimal: true, operator: false, current: newCurrent });
-        } else {
-          return false;
-        }
-        break;
-      case 'clear-all':
-        clearAll();
-        break;
-      case 'clear':
-        clearInput(state);
-        break;
-      default:
-        break;
-    }
+        const deci = state.current.length ? '.' : '0.';
+        const newCurrent = state.current + deci;
+        updateState({ decimal: true, operator: false, current: newCurrent });
+      } else {
+        return false;
+      }
+    } else if (type === 'clear-all') clearAll();
+    else if (type === 'clear') clearInput(state);
+
     animate(e, type);
     updateDisplay(state);
   }
@@ -156,6 +145,7 @@ export const Calculator = () => {
     const equation = total.replace(/,/g, '') + current;
     const answer = eval(equation).toString();
     const exceedsLimit = maxLength(answer, 9);
+    console.log('answer:', answer);
     return exceedsLimit ? expoNotation(answer) : answer;
   }
 
@@ -165,18 +155,26 @@ export const Calculator = () => {
   function updateDisplay({ current, total }) {
     console.table(state);
     updateFontSize(current);
-    const newCurrent = current.length > 3 ? addComma(current) : current;
-    console.log('newcurrent:', newCurrent);
+    const newCurrent = addComma(current);
+    console.log('updating display with:', newCurrent);
     displayNum.innerText = newCurrent;
     displayTotal.innerText = total + newCurrent;
   }
 
   function addComma(num) {
+    const isExponent = num.includes('e');
+    if (isExponent || num.length < 3) return num;
+    else if (state.decimal) {
+      const leftOfDecimal = num.substring(0, num.indexOf('.'));
+      const rightOfDecimal = num.substring(num.indexOf('.'));
+      return leftOfDecimal.length > 3
+        ? Number(leftOfDecimal).toLocaleString() + rightOfDecimal
+        : num;
+    }
     return Number(num).toLocaleString(undefined, {
       maximumSignificantDigits: 9
     });
   }
-  z;
 
   function updateFontSize(num) {
     const currentLength = num.replace(/,|\./g, '').length;
