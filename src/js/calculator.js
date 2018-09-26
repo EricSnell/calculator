@@ -23,7 +23,6 @@ export const Calculator = () => {
   /* Function To Run On Button Click */
   function run(e) {
     e.preventDefault();
-    console.clear();
     if (e.target.tagName !== 'BUTTON') return;
     const {
       textContent: input,
@@ -133,7 +132,6 @@ export const Calculator = () => {
    */
   function calculate(state) {
     const answer = formatAnswer(state);
-    console.log('returned answer:', answer);
     updateState({
       decimal: false,
       current: answer,
@@ -149,10 +147,7 @@ export const Calculator = () => {
         maximumSignificantDigits: 9
       })
       .replace(/,/g, '');
-    console.log('equation:', equation);
-    console.log('answer:', answer);
     const exceedsLimit = maxLength(answer, 9);
-    console.log('answer:', answer);
     return exceedsLimit ? expoNotation(answer) : answer;
   }
 
@@ -160,7 +155,6 @@ export const Calculator = () => {
    * UPDATE DISPLAY
    */
   function updateDisplay({ current, total }) {
-    console.table(state);
     updateFontSize(current);
     const newCurrent = addComma(current);
     displayNum.innerText = newCurrent;
@@ -210,14 +204,12 @@ export const Calculator = () => {
    * HELPER FUNCTIONS
    */
   function expoNotation(num) {
-    console.log('in expo:', num);
     return parseFloat(num.replace(/,/g, ''))
       .toExponential(0)
       .replace(/\+/g, '');
   }
 
   function maxLength(num, limit) {
-    console.log('in maxlength:', num);
     return num.replace(/-|\./g, '').length > limit;
   }
 
