@@ -30,7 +30,25 @@ export const Calculator = () => {
       dataset: { actionJs: action }
     } = e.target;
     const type = getType(action);
+    handleInput(type, input);
+    animate(e, type);
+    updateDisplay(state);
+  }
 
+  function getType(action) {
+    if (!action) return 'number';
+    if (
+      action === 'add' ||
+      action === 'subtract' ||
+      action === 'multiply' ||
+      action === 'divide'
+    ) {
+      return 'operator';
+    }
+    return action;
+  }
+
+  function handleInput(type, input) {
     if (type === 'number') {
       if (state.operator) {
         const newTotal = state.total + state.current;
@@ -88,22 +106,6 @@ export const Calculator = () => {
       } else return false;
     } else if (type === 'clear-all') clearAll();
     else if (type === 'clear') clearInput(state);
-
-    animate(e, type);
-    updateDisplay(state);
-  }
-
-  function getType(action) {
-    if (!action) return 'number';
-    if (
-      action === 'add' ||
-      action === 'subtract' ||
-      action === 'multiply' ||
-      action === 'divide'
-    ) {
-      return 'operator';
-    }
-    return action;
   }
 
   /**
