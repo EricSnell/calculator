@@ -183,7 +183,7 @@ export const Calculator = () => {
   }
 
   function updateFontSize(num) {
-    const currentLength = num.replace(/,|\./g, '').length;
+    const currentLength = num.replace(/-|,|\./g, '').length;
     displayNum.style.fontSize = determineSize(currentLength);
   }
   // feels hacky -- temporary solution
@@ -218,7 +218,7 @@ export const Calculator = () => {
 
   function maxLength(num, limit) {
     console.log('in maxlength:', num);
-    return num.replace(/\./g, '').length > limit;
+    return num.replace(/-|\./g, '').length > limit;
   }
 
   function validNumber(num) {
