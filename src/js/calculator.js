@@ -1,5 +1,3 @@
-import { format } from 'path';
-
 ('use strict');
 
 export const Calculator = () => {
