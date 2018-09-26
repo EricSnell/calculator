@@ -35,7 +35,7 @@ export const Calculator = () => {
       if (state.operator) {
         const newTotal = state.total + state.current;
         updateState({ operator: false, current: '', total: newTotal });
-      }
+      } else if (state.calculated) clearAll();
       if (validNumber(input)) {
         if (maxLength(state.current, 8)) return;
         const newCurrent = state.current + input;
