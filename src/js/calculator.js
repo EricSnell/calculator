@@ -81,13 +81,11 @@ export const Calculator = () => {
         if (state.operator) {
           const newTotal = state.total + state.current;
           updateState({ current: '', total: newTotal });
-        }
+        } else if (state.calculated) clearAll();
         const deci = state.current.length ? '.' : '0.';
         const newCurrent = state.current + deci;
         updateState({ decimal: true, operator: false, current: newCurrent });
-      } else {
-        return false;
-      }
+      } else return false;
     } else if (type === 'clear-all') clearAll();
     else if (type === 'clear') clearInput(state);
 
